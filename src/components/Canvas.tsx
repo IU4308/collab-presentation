@@ -15,7 +15,7 @@ export default function Canvas({ src, alt } : CanvasProps) {
 
     const draggableRef = useRef<HTMLDivElement>(null)
 
-    const handleDrag = (e: DraggableEvent, data: DraggableData) => {
+    const handleDrag = (_: DraggableEvent, data: DraggableData) => {
         setPosition({ x: data.x, y: data.y });
     };
 
