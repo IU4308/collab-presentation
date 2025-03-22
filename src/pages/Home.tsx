@@ -3,7 +3,6 @@ import Preview from "../components/Preview";
 import Header from "@/components/Header";
 
 export default function Home() {
-    const presentations = Array.from({ length: 12 })
     return (
         <main className="min-h-screen py-4 flex flex-col gap-2 items-center">
             <Header />

@@ -10,7 +10,8 @@ import Markdown from 'react-markdown'
 export default function Canvas({ src, alt } : CanvasProps) {
     const [position, setPosition] = useState({ x: 0, y: 0 })
     const [isEditing, setIsEditing] = useState(false);
-    const [content, setContent] = useState("## Drag me! ✍️\n\nWrite in **Markdown** format.");
+    // const [content, setContent] = useState("## Drag me! ✍️\n\nWrite in **Markdown** format.");
+    const content = "## Drag me! ✍️\n\nWrite in **Markdown** format."
 
     const draggableRef = useRef<HTMLDivElement>(null)
 
@@ -18,9 +19,9 @@ export default function Canvas({ src, alt } : CanvasProps) {
         setPosition({ x: data.x, y: data.y });
     };
 
-    const handleContentChange = (value: string) => {
-        setContent(value);
-    };
+    // const handleContentChange = (value: string) => {
+    //     setContent(value);
+    // };
 
 
     return (
