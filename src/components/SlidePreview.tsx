@@ -13,7 +13,7 @@ export default function SlidePreview({
                 src={src} 
                 alt={alt}
                 onClick={() => handleSlideSelection(id)}
-                className={`object-cover rounded-xl aspect-video ${id === currentSlideId && 'border-2 border-orange-500'}`} 
+                className={`object-cover rounded-xl aspect-video cursor-pointer ${id === currentSlideId && 'border-4 border-orange-500'}`} 
             />
         </li>
     )

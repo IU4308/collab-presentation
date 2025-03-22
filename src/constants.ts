@@ -20,4 +20,5 @@ export const slides = [
         src: '/slide4.jpg',
         alt: 'slide 4',
     },
+    
 ]

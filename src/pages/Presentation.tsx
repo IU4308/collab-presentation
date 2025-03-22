@@ -1,4 +1,5 @@
 import SlidesList from "@/components/SlidesList";
+import ToolPanel from "@/components/ToolPanel";
 import UsersList from "@/components/UsersList";
 import { slides } from "@/constants";
 import { useState } from "react";
@@ -19,23 +20,15 @@ export default function Presentation() {
     const currentSlide = slides.find(slide => slide.id === currentSlideId)
     
     return (
-        <main className="h-screen flex flex-col">
-            <header className="flex py-4 px-8 border items-center">
-                <div className="flex gap-2">
-                    <div className=" flex items-center"><CiHome className="text-xl"/></div>
-                    <div className="flex flex-col ">
-                        <span className="font-bold">Title</span>
-                        <span className="text-gray-500 text-xs">Author</span>
-                    </div>
-                </div>
-            </header>
-            <section className="flex">
+        <main className="h-screen flex flex-col overflow-x-auto">
+            <ToolPanel />
+            <section className="flex h-[93%]">
                 <SlidesList 
                     currentSlideId={currentSlideId}
                     handleSlideSelection={handleSlideSelection}
                 />
-                <div className="border w-[75%] ">
-                    <img src={currentSlide!.src} alt="slide" className="object-cover h-screen w-[100%]" />
+                <div className="w-[75%] h-[100%] min-w-[1024px] ">
+                    <img src={currentSlide!.src} alt="slide" className="object-cover h-[100%] w-[100%]" />
                 </div>
                 <UsersList />
             </section>
