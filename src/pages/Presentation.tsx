@@ -3,7 +3,6 @@ import ToolPanel from "@/components/ToolPanel";
 import UsersList from "@/components/UsersList";
 import { slides } from "@/constants";
 import { useState } from "react";
-import { CiHome } from "react-icons/ci";
 
 
 
