@@ -2,36 +2,47 @@ import { CanvasProps } from "@/definitions";
 import { useRef, useState } from "react";
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 import Markdown from 'react-markdown'
-// import { MDXEditor } from '@mdxeditor/editor'
-// import { headingsPlugin } from '@mdxeditor/editor'
-
-// import '@mdxeditor/editor/style.css'
+import remarkGfm from 'remark-gfm';
+import MDEditor from "@uiw/react-md-editor";
+import { Button } from "./ui/button";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+  } from "@/components/ui/tooltip"
 
 export default function Canvas({ src, alt } : CanvasProps) {
-    const [position, setPosition] = useState({ x: 0, y: 0 })
+    const [position, setPosition] = useState({ x: 200, y: 0 })
+    const [height, setHeight] = useState(300);
+
     const [isEditing, setIsEditing] = useState(false);
-    // const [content, setContent] = useState("## Drag me! ✍️\n\nWrite in **Markdown** format.");
-    const content = "## Drag me! ✍️\n\nWrite in **Markdown** format."
+    const [content, setContent] = useState("# Hello World");
 
     const draggableRef = useRef<HTMLDivElement>(null)
+    const editorRef = useRef(null)
 
     const handleDrag = (_: DraggableEvent, data: DraggableData) => {
         setPosition({ x: data.x, y: data.y });
     };
 
-    // const handleContentChange = (value: string) => {
-    //     setContent(value);
-    // };
+    const handleContent = (value: string) => {
+        setContent(value)
+    }
 
+    const handleHeight = (value: number) => {
+        setHeight(value)
+    }
+
+    console.log(content)
 
     return (
         <div className="relative border-2 min-w-[1024px] w-[100%]">
-            <div className="absolute top-0 left-0 ">
+            <div className="absolute top-0 left-0">
                 <Draggable
                     nodeRef={draggableRef as React.RefObject<HTMLElement>}
                     axis="both"
                     handle=".handle"
-                    // defaultPosition={{x: 0, y: 0}}
                     position={position}
                     grid={[25, 25]}
                     scale={1}
@@ -39,25 +50,59 @@ export default function Canvas({ src, alt } : CanvasProps) {
                     onDrag={handleDrag}
                     onStop={handleDrag}
                 >
-                    <div ref={draggableRef} className="cursor-pointer  border-2 border-red-500 p-10 bg-white">
+                    <div 
+                        ref={draggableRef} 
+                        className={` ${!isEditing && 'cursor-pointer handle'}`}
+                    >
                         {isEditing ? (
-                            <div>
-                                {/* <MDXEditor markdown="# Hello world" plugins={[headingsPlugin()]} /> */}
+                            <div data-color-mode="light">
+                                <Button onClick={() => {
+                                    setIsEditing(false)
+                                }}>
+                                    Save
+                                </Button>
+                                <MDEditor 
+                                    className="border-2 min-h-[300px] bg-black"
+                                    ref={editorRef} 
+                                    value={content} 
+                                    onChange={(value = "") => {
+                                        handleContent(value)
+                                    }} 
+                                    height={height}
+                                    onHeightChange={(value) => {
+                                        handleHeight(Number(value))
+                                    }} 
+                                    preview="live" 
+                                    autoFocus 
+                                    visibleDragbar={true}
+                                    fullscreen={false}
+                                />
                             </div>
-
                         ) : (
-                            <div onDoubleClick={() => setIsEditing(true)}>    
-                                <Markdown>{content}</Markdown>
-                            </div>
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <div 
+                                            className="border-2"
+                                            onDoubleClick={() => {
+                                                setIsEditing(true)
+                                            }}
+                                        >
+                                            <Markdown remarkPlugins={[remarkGfm]}>{content}</Markdown>
+                                        </div>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p className="">Double click to edit</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
+                            
                         )}
                     </div>
-                    {/* <Button onClick={() => setIsEditing(!isEditing)}>
-                        {isEditing ? "Save" : "Edit"}
-                    </Button> */}
                 </Draggable>
             </div>
 
-            <div className=" h-[100%]  ">
+            <div className="h-[100%]  ">
                 <img src={src} alt={alt} className="object-cover h-[100%] w-[100%] border" />
             </div>
         </div>

@@ -121,6 +121,22 @@
   }
 }
 
+@layer base {
+  h1 {
+    font-size: var(--text-2xl);
+  }
+  h2 {
+    font-size: var(--text-xl);
+  }
+  h3 {
+    font-size: var(--text-lg);
+  }
+  a {
+    color: var(--color-blue-600);
+    text-decoration-line: underline;
+  }
+}
+
 /* For WebKit browsers */
 ::-webkit-scrollbar {
   width: 12px; /* Change this value to your desired width */
@@ -130,3 +146,9 @@
 * {
   scrollbar-width: thin; /* Options: auto, thin, none */
 }
+
+/* h1 {
+  font-size: 2em;
+  font-weight: bold;
+  margin: 0.67em 0;
+} */

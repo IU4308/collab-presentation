@@ -22,7 +22,7 @@ export default function Preview ({ src, alt } : PreviewProps) {
                         <img 
                             src={src} 
                             alt={alt} 
-                            className="object-cover rounded-md w-[300px] h-[200px] cursor-pointer"
+                            className="border-2 object-cover rounded-md w-[300px] h-[200px] cursor-pointer"
                         />
                     </div>
                     <div>Title</div>
