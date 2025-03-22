@@ -1,6 +1,11 @@
 
 export const slides = [
     {
+        id: 0,
+        src: '/blank.jpg',
+        alt: 'slide 0',
+    },
+    {
         id: 1,
         src: '/slide1.jpg',
         alt: 'slide 1',

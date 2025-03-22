@@ -1,10 +1,9 @@
+import Canvas from "@/components/Canvas";
 import SlidesList from "@/components/SlidesList";
 import ToolPanel from "@/components/ToolPanel";
 import UsersList from "@/components/UsersList";
 import { slides } from "@/constants";
 import { useState } from "react";
-
-
 
 // import { useParams } from "react-router"
 
@@ -26,9 +25,7 @@ export default function Presentation() {
                     currentSlideId={currentSlideId}
                     handleSlideSelection={handleSlideSelection}
                 />
-                <div className="w-[75%] h-[100%] min-w-[1024px] ">
-                    <img src={currentSlide!.src} alt="slide" className="object-cover h-[100%] w-[100%]" />
-                </div>
+                <Canvas {...currentSlide!} />
                 <UsersList />
             </section>
         </main>

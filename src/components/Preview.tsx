@@ -10,18 +10,19 @@ import {
     DialogTitle,
     DialogTrigger,
   } from "@/components/ui/dialog"
+import { PreviewProps } from "@/definitions"
 
 
-export default function Preview () {
+export default function Preview ({ src, alt } : PreviewProps) {
     return (
         <Dialog>
             <DialogTrigger>
                 <div className=" hover:opacity-50 flex flex-col gap-2">
                     <div>
                         <img 
-                            src="/image.jpg" 
-                            alt="img" 
-                            className="object-cover rounded-md"
+                            src={src} 
+                            alt={alt} 
+                            className="object-cover rounded-md w-[300px] h-[200px] cursor-pointer"
                         />
                     </div>
                     <div>Title</div>

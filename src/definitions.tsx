@@ -11,3 +11,15 @@ export interface SlidePreviewProps {
     currentSlideId: number;
     handleSlideSelection: (id: number) => void;
 }
+
+export interface PreviewProps {
+    id: number;
+    src: string;
+    alt: string;
+}
+
+export interface CanvasProps {
+    id: number;
+    src: string;
+    alt: string;
+}

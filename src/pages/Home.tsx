@@ -1,3 +1,4 @@
+import { slides } from "@/constants";
 import Preview from "../components/Preview";
 import Header from "@/components/Header";
 
@@ -8,8 +9,8 @@ export default function Home() {
             <Header />
 
             <div className="xl:max-w-[1024px] py-8 grid sm:grid-cols-2 xl:grid-cols-3 gap-8 justify-center xl:border-x border-gray-200 sm:px-8">
-                {presentations.map((_, index) => (
-                    <Preview key={index} />
+                {slides.map(slide => (
+                    <Preview key={slide.id} {...slide} />
                 ))}
             </div>
         </main>
