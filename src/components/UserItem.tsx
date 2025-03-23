@@ -33,15 +33,15 @@ export default function UserItem () {
                         <FaEllipsisH />
                     </Button>
                 </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56">
-                <DropdownMenuLabel>Assign Role</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuRadioGroup value={role} onValueChange={setRole} >
-                    <DropdownMenuRadioItem className="cursor-pointer" value="viewer">Viewer</DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem className="cursor-pointer" value="editor">Editor</DropdownMenuRadioItem>
-                </DropdownMenuRadioGroup>
-            </DropdownMenuContent>
-        </DropdownMenu>
+                <DropdownMenuContent className="w-56">
+                    <DropdownMenuLabel>Assign Role</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuRadioGroup value={role} onValueChange={setRole} >
+                        <DropdownMenuRadioItem className="cursor-pointer" value="viewer">Viewer</DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem className="cursor-pointer" value="editor">Editor</DropdownMenuRadioItem>
+                    </DropdownMenuRadioGroup>
+                </DropdownMenuContent>
+            </DropdownMenu>
         </li>
     )
 }

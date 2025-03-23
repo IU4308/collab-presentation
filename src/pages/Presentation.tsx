@@ -9,7 +9,7 @@ import { useState } from "react";
 
 export default function Presentation() {
     // const params = useParams()
-    const [currentSlideId, setCurrentSlideId] = useState(1)
+    const [currentSlideId, setCurrentSlideId] = useState(4)
 
     const handleSlideSelection = (id: number) => {
         setCurrentSlideId(id)
