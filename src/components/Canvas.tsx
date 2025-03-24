@@ -19,12 +19,17 @@ const content = `
 
 const initialEditor = new Editor({
     extensions,
+    editable: false
     // content,
 })
 
 export default function Canvas({ src, alt } : CanvasProps) {
-    const [editors, setEditors] = useState<{ id: number, editor: Editor,position: { x: number, y: number } }[]>([]);
+    const [editors, setEditors] = useState<{ id: number, editor: Editor, position: { x: number, y: number } }[]>([]);
     const [selectedId, setSelectedId] = useState(0);
+    // const [test, setTest] = useState({})
+    const [forceRender, setForceRender] = useState(false);
+
+    const handleRender = () => setForceRender(!forceRender)
 
     const selectedEditor = editors.find(editor => editor.id === selectedId)
 
@@ -60,11 +65,13 @@ export default function Canvas({ src, alt } : CanvasProps) {
             editable: true,
             // onUpdate: ({ editor }) => {
             //     // console.log('Editor content changed:', editor.getHTML())
-            //     setSelectedId(editors.length + 1);
+            //     setTest(editor)
             // }
         })
 
-        setEditors([...editors, { id: editors.length + 1, editor, position: { x: 50, y: 50 } }]);
+        
+
+        setEditors([...editors, { id: editors.length + 1, editor, position: { x: 50, y: 100 } }]);
     }
 
     useEffect(() => {
@@ -94,7 +101,10 @@ export default function Canvas({ src, alt } : CanvasProps) {
         <div ref={slideRef} className="relative z-40 min-w-[1024px] w-full h-[calc(100%+45px)] overflow-clip ">
             <div className="px-2 flex gap-2 items-center">
                 <Button onClick={addEditor}>Add Text</Button>
-                <MenuBar editor={selectedEditor !== undefined ? selectedEditor.editor : initialEditor} isActive={isActive} />
+                <MenuBar 
+                    editor={selectedEditor !== undefined ? selectedEditor.editor : initialEditor} 
+                    handleRender={handleRender}   
+                />
             </div>
             {editors.map(({ id, editor, position }) => (
                 <div key={id} className="absolute top-0 left-0 z-30">
@@ -120,6 +130,7 @@ export default function Canvas({ src, alt } : CanvasProps) {
                                 editor={editor} 
                                 onClick={() => {
                                     handleSelectedId(id)
+                                    handleRender()
                                     if (!isActive) {
                                         // editor.chain().focus()
                                         setIsActive(true)
@@ -137,6 +148,7 @@ export default function Canvas({ src, alt } : CanvasProps) {
                 className="relative z-20 object-cover h-[100%] w-[100%] cursor-pointer" 
                 onClick={() => {
                     setIsActive(false)
+                    setSelectedId(0)
                 }}
             />
 

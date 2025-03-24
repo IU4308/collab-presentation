@@ -15,11 +15,12 @@ import { colors } from "@/constants";
 import { getActiveColor } from "@/lib/utils";
 import { ColorButtonProps } from "@/definitions";
 
-const Item = ({ editor, color, label }: ColorButtonProps) => {
+const Item = ({ editor, color, label, handleRender }: ColorButtonProps) => {
     return (
         <DropdownMenuRadioItem 
             value={color}
             onClick={() => {
+                handleRender()
                 editor.chain().focus().setColor(color).run();
                 setTimeout(() => {
                     editor.chain().focus().run();
@@ -33,7 +34,7 @@ const Item = ({ editor, color, label }: ColorButtonProps) => {
     )
 }
 
-export default function ColorButton ({ editor, isEditing } : { editor: Editor, isEditing: boolean}) {
+export default function ColorButton ({ editor, handleRender } : { editor: Editor, handleRender: () => void }) {
     const activeColor = getActiveColor(editor);
 
     return (
@@ -41,7 +42,7 @@ export default function ColorButton ({ editor, isEditing } : { editor: Editor, i
             <DropdownMenuTrigger asChild className="cursor-pointer">
                 <Button
                     className="bg-gray-200 text-black hover:bg-blue-600 hover:text-white"
-                    disabled={!editor.can().chain().focus().setColor('#958DF1').run() || !isEditing}
+                    disabled={!editor.can().chain().focus().setColor('#958DF1').run() || !editor.isEditable}
                 >
                     <MdFormatColorText style={{ color: activeColor }}  />
                 </Button>
@@ -56,6 +57,7 @@ export default function ColorButton ({ editor, isEditing } : { editor: Editor, i
                             editor={editor} 
                             color={color.color} 
                             label={color.label} 
+                            handleRender={handleRender}
                         />
                     ))}
                 </DropdownMenuRadioGroup>

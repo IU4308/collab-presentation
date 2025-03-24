@@ -2,14 +2,23 @@ import { Button } from "../ui/button";
 import { MenuButtonProps } from "@/definitions";
 import { getEditorMethod } from "@/lib/utils";
 
-export default function MenuButton ({ editor, type, icon, isEditing } : MenuButtonProps) {
-    console.log(editor.isActive(type))
+export default function MenuButton ({ 
+    editor, 
+    type, 
+    icon, 
+    handleRender 
+} : MenuButtonProps) {
     return (
         <Button
             onClick={() => {
                 getEditorMethod(editor, type)()
+                handleRender()
             }}
-            disabled={!getEditorMethod(editor, type, 'check')() || !isEditing}
+            disabled={
+                false
+                // !getEditorMethod(editor, type, 'check')() 
+                // || !editor.isEditable
+            }
             className={`cursor-pointer rounded ${editor.isActive(type) ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800'} hover:bg-blue-600 hover:text-white`}
         >
             {icon}

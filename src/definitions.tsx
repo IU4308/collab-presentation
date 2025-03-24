@@ -26,15 +26,26 @@ export interface CanvasProps {
     alt: string;
 }
 
+export interface MenuBarProps { 
+    editor: Editor | null; 
+    handleRender: () => void 
+}
+
 export interface MenuButtonProps {
     editor: Editor;
     type: string;
     icon: ReactNode;
-    isEditing: boolean;
+    handleRender: () => void
+}
+
+export interface HeadingButtonProps {
+    editor: Editor, 
+    handleRender: () => void
 }
 
 export interface ColorButtonProps {
     editor: Editor;
     color: string;
     label: string;
+    handleRender: () => void
 }

@@ -1,11 +1,14 @@
-import { Editor } from "@tiptap/core"
 import HeadingButton from "./menu-buttons/heading-button";
 import MenuButton from "./menu-buttons/MenuButton";
 import { buttons } from "@/constants";
 import ColorButton from "./menu-buttons/color-button";
+import { MenuBarProps } from "@/definitions";
 
 
-export default function MenuBar ({ editor, isActive } : { editor: Editor | null; isActive: boolean }) {
+export default function MenuBar ({ 
+  editor, 
+  handleRender 
+} : MenuBarProps) {
   // console.log(editor)
 
   if (!editor) {
@@ -17,7 +20,7 @@ export default function MenuBar ({ editor, isActive } : { editor: Editor | null;
     <>
       <div className="control-group w-[732px] p-2 bg-white border-gray-300 ">
         <div className="button-group flex w-[732px] gap-2">
-          <HeadingButton editor={editor} isEditing={isActive} />
+          <HeadingButton editor={editor} handleRender={handleRender} />
           
           {buttons.map(button => (
             <MenuButton 
@@ -25,10 +28,12 @@ export default function MenuBar ({ editor, isActive } : { editor: Editor | null;
               editor={editor}
               type={button.type}
               icon={button.icon}
-              isEditing={isActive}
+            
+              handleRender={handleRender}
+
             />
           ))}
-          <ColorButton editor={editor} isEditing={isActive} />
+          <ColorButton editor={editor} handleRender={handleRender}/>
 
 
           {/* <button
