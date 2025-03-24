@@ -22,6 +22,7 @@ export default function Canvas({ src, alt } : CanvasProps) {
     const [selectedId, setSelectedId] = useState(0);
     const [isActive, setIsActive] = useState(false)
     
+    
     const handleSelectedId = (id: number) => {
         setSelectedId(id)
     }
@@ -35,6 +36,7 @@ export default function Canvas({ src, alt } : CanvasProps) {
         width: 0,
         height: 0,
     })
+    const [shift, setShift] = useState(0)
     
     const [width, height] = useWindowSize()
 
@@ -57,6 +59,13 @@ export default function Canvas({ src, alt } : CanvasProps) {
             });
         }
     }, [ width, height]);
+
+    useEffect(() => {
+        const selectedField = fields.find(field => field.id === selectedId)
+        if (selectedField !== undefined && slideSize.width - 732 - selectedField?.position.x < 0) {
+            setShift(slideSize.width - 732 - selectedField!.position.x)
+        }
+    }, [fields, selectedId, slideSize.width])
 
     const bounds = {
         left: 0, 
@@ -97,7 +106,7 @@ export default function Canvas({ src, alt } : CanvasProps) {
                             className={`handle tiptap min-w-[100px] max-w-[1024px]`}
                         >
                             <EditorProvider 
-                                slotBefore={<MenuBar selectedId={selectedId} currentId={id} />} 
+                                slotBefore={<MenuBar selectedId={selectedId} currentId={id} shift={shift} />} 
                                 extensions={extensions} 
                                 // editable={isActive}
                                 content={content} 

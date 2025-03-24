@@ -6,10 +6,12 @@ import { useCurrentEditor } from "@tiptap/react";
 
 export default function MenuBar ({ 
     selectedId,
-    currentId
+    currentId,
+    shift
 } : { 
     selectedId: number; 
-    currentId: number 
+    currentId: number;
+    shift: number;
 }) {
     const { editor } = useCurrentEditor()
 
@@ -20,7 +22,9 @@ export default function MenuBar ({
     return (
       <>
           {selectedId === currentId && (
-              <div className=" control-group w-[732px] p-2 rounded-xl bg-white border-gray-300 ">
+              <div
+                style={{ left: `${shift}px` }}
+                className="absolute  top-[-60px] control-group w-[732px] p-2 rounded-xl bg-white border-gray-300 ">
                   <div className="button-group flex w-[732px] gap-2">
                       <HeadingButton  />
                       <ColorButton/>
