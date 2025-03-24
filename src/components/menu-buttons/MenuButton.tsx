@@ -3,6 +3,7 @@ import { MenuButtonProps } from "@/definitions";
 import { getEditorMethod } from "@/lib/utils";
 
 export default function MenuButton ({ editor, type, icon, isEditing } : MenuButtonProps) {
+    console.log(editor.isActive(type))
     return (
         <Button
             onClick={() => {

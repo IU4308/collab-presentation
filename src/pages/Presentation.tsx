@@ -18,7 +18,7 @@ export default function Presentation() {
     const currentSlide = slides.find(slide => slide.id === currentSlideId)
     
     return (
-        <main className="h-screen flex flex-col overflow-x-auto">
+        <main className=" h-screen flex flex-col overflow-x-auto">
             <ToolPanel />
             <section className="flex h-[93%]">
                 <SlidesList 

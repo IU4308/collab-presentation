@@ -6,14 +6,16 @@ import ColorButton from "./menu-buttons/color-button";
 
 
 export default function MenuBar ({ editor, isActive } : { editor: Editor | null; isActive: boolean }) {
+  // console.log(editor)
 
   if (!editor) {
     return null
   }
 
+
   return (
     <>
-      <div className="control-group ml-[200px] absolute top-[-55px] z-40 w-[732px] p-2 bg-white border-gray-300 ">
+      <div className="control-group w-[732px] p-2 bg-white border-gray-300 ">
         <div className="button-group flex w-[732px] gap-2">
           <HeadingButton editor={editor} isEditing={isActive} />
           

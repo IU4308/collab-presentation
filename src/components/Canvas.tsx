@@ -1,7 +1,7 @@
 import { CanvasProps } from "@/definitions";
 import { useEffect, useRef, useState } from "react";
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
-import { EditorContent, useEditor } from "@tiptap/react";
+import { Editor, EditorContent } from "@tiptap/react";
 
 import {
     useWindowSize,
@@ -9,35 +9,65 @@ import {
 
 import MenuBar from "./MenuBar";
 import { extensions } from "@/constants";
+import { Button } from "./ui/button";
 
 const content = `
-<span>
-  Hello World
-</span>
+<p>
+  Add text
+</p>
 `
 
 export default function Canvas({ src, alt } : CanvasProps) {
-    const [position, setPosition] = useState({ x: 0, y: 0 })
+    const [editors, setEditors] = useState<{ id: number, editor: Editor,position: { x: number, y: number } }[]>([]);
+    const [selectedId, setSelectedId] = useState(0);
+
+    const selectedEditor = editors.find(editor => editor.id === selectedId)
+
     const [slideSize, setSlideSize] = useState({
         width: 0,
         height: 0,
     })
     const [isActive, setIsActive] = useState(false)
+    // const isActive = true
 
     const [width, height] = useWindowSize()
 
     const draggableRef = useRef<HTMLDivElement>(null)
     const slideRef=useRef<HTMLDivElement>(null)
 
-    const handleDrag = (_: DraggableEvent, data: DraggableData) => {
-        setPosition({ x: data.x, y: data.y });
+    const handleDrag = (id: number,_: DraggableEvent, data: DraggableData) => {
+        setEditors(editors.map(
+            editor => editor.id === id 
+                ? {...editor, position: { x: data.x, y: data.y}} 
+                : editor
+        ))
+        // console.log('dragging')
     };
 
-    const editor = useEditor({
-        extensions,
-        content,
-        // editable: !isActive,
-    })
+    const handleSelectedId = (id: number) => {
+        setSelectedId(id)
+    }
+    
+    const addEditor = () => {
+        const editor = new Editor({
+            extensions,
+            content,
+            editable: true,
+            // onUpdate: ({ editor }) => {
+            //     // console.log('Editor content changed:', editor.getHTML())
+            //     setSelectedId(editors.length + 1);
+            // }
+        })
+
+        setEditors([...editors, { id: editors.length + 1, editor, position: { x: 50, y: 50 } }]);
+    }
+
+    useEffect(() => {
+        // console.log(editors)
+        console.log(selectedId)
+    }, [editors.length, selectedId])
+
+    // console.log(selectedId)
 
     useEffect(() => {
         if (slideRef.current) {
@@ -52,43 +82,50 @@ export default function Canvas({ src, alt } : CanvasProps) {
         left: 0, 
         top: 0, 
         right: slideSize.width, 
-        bottom: slideSize.height - 35
+        bottom: slideSize.height
     }
 
     return (
-        <div ref={slideRef} className="relative min-w-[1024px] w-full h-full  border-2">
-            <MenuBar editor={editor} isActive={isActive} />
-            <div className="absolute top-0 left-0 z-30">
-                <Draggable
-                    nodeRef={draggableRef as React.RefObject<HTMLElement>}
-                    axis="both"
-                    handle=".handle"
-                    position={position}
-                    grid={[25, 25]}
-                    scale={1}
-                    onStart={() => console.log('Drag started')}
-                    onDrag={handleDrag}
-                    onStop={handleDrag}
-                    disabled={isActive}
-                    bounds={bounds}
-                >
-                    <div 
-                        ref={draggableRef} 
-                        className={`handle tiptap min-w-[100px] max-w-[1024px]`}
-                    >
-                        
-                        <EditorContent 
-                            className="inline-block w-auto max-w-full  "
-                            editor={editor} 
-                            onClick={() => {
-                                if (!isActive) {
-                                    setIsActive(true)
-                                }
-                            }} 
-                        />
-                    </div>
-                </Draggable>
+        <div ref={slideRef} className="relative z-40 min-w-[1024px] w-full h-[calc(100%+45px)] overflow-clip ">
+            <div className="px-2 flex gap-2 items-center">
+                <Button onClick={addEditor}>Add Text</Button>
+                <MenuBar editor={selectedEditor !== undefined ? selectedEditor.editor : null} isActive={isActive} />
             </div>
+            {editors.map(({ id, editor, position }) => (
+                <div key={id} className="absolute top-0 left-0 z-30">
+                    <Draggable
+                        nodeRef={draggableRef as React.RefObject<HTMLElement>}
+                        axis="both"
+                        handle=".handle"
+                        position={position}
+                        grid={[25, 25]}
+                        scale={1}
+                        // onStart={() => console.log('Drag started')}
+                        onDrag={(e, data) => handleDrag(id, e, data)}
+                        onStop={(e, data) => handleDrag(id, e, data)}
+                        disabled={isActive}
+                        bounds={bounds}
+                    >
+                        <div 
+                            ref={draggableRef} 
+                            className={`handle tiptap min-w-[100px] max-w-[1024px]`}
+                        >
+                            <EditorContent 
+                                className="inline-block w-auto max-w-full  "
+                                editor={editor} 
+                                onClick={() => {
+                                    handleSelectedId(id)
+                                    if (!isActive) {
+                                        // editor.chain().focus()
+                                        setIsActive(true)
+                                    }
+                                }} 
+                            />
+                        </div>
+                    </Draggable>
+                </div>
+
+            ))}
             <img 
                 src={src} 
                 alt={alt} 
