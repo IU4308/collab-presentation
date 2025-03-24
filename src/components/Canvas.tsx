@@ -17,6 +17,11 @@ const content = `
 </p>
 `
 
+const initialEditor = new Editor({
+    extensions,
+    // content,
+})
+
 export default function Canvas({ src, alt } : CanvasProps) {
     const [editors, setEditors] = useState<{ id: number, editor: Editor,position: { x: number, y: number } }[]>([]);
     const [selectedId, setSelectedId] = useState(0);
@@ -89,7 +94,7 @@ export default function Canvas({ src, alt } : CanvasProps) {
         <div ref={slideRef} className="relative z-40 min-w-[1024px] w-full h-[calc(100%+45px)] overflow-clip ">
             <div className="px-2 flex gap-2 items-center">
                 <Button onClick={addEditor}>Add Text</Button>
-                <MenuBar editor={selectedEditor !== undefined ? selectedEditor.editor : null} isActive={isActive} />
+                <MenuBar editor={selectedEditor !== undefined ? selectedEditor.editor : initialEditor} isActive={isActive} />
             </div>
             {editors.map(({ id, editor, position }) => (
                 <div key={id} className="absolute top-0 left-0 z-30">

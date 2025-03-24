@@ -1,6 +1,5 @@
 import Canvas from "@/components/Canvas";
 import SlidesList from "@/components/SlidesList";
-import ToolPanel from "@/components/ToolPanel";
 import UsersList from "@/components/UsersList";
 import { slides } from "@/constants";
 import { useState } from "react";
@@ -19,7 +18,6 @@ export default function Presentation() {
     
     return (
         <main className=" h-screen flex flex-col overflow-x-auto">
-            <ToolPanel />
             <section className="flex h-[93%]">
                 <SlidesList 
                     currentSlideId={currentSlideId}
