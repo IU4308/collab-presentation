@@ -12,24 +12,54 @@ import MenuBar from "./MenuBar";
 import { extensions } from "@/constants";
 import { Button } from "./ui/button";
 
-import placeholderData from "../placeholder-data.json";
-import { parseStringify } from "@/lib/utils";
+import { io } from "socket.io-client";
+import axios from "axios";
+
+const socket = io('http://localhost:4000');
 
 export default function Canvas({ src, alt } : CanvasProps) {
-    const data = parseStringify(placeholderData)
-    
-    const [fields, setFields] = useState<{ id: number, content: Content, position: { x: number, y: number } }[]>([...data]);
+    const [fields, setFields] = useState<{ id: number, content: Content, position: { x: number, y: number } }[]>([]);
     const [selectedId, setSelectedId] = useState(0);
     const [isActive, setIsActive] = useState(false)
-    
     
     const handleSelectedId = (id: number) => {
         setSelectedId(id)
     }
 
     const addEditor = () => {
-        setFields([...fields, { id: fields.length + 1, content: '<p>Add Text</p>', position: { x: 50, y: 100 } }]);
+        const newFields = [...fields, { id: fields.length + 1, content: '<p>Add Text</p>', position: { x: 50, y: 100 } }];
+        setFields(newFields);
+        updateFieldsOnServer(newFields);
     }
+
+    const updateFieldsOnServer = async (updatedFields: any) => {
+        try {
+            await axios.post('http://localhost:4000/api/fields', updatedFields);
+        } catch (error) {
+            console.error('Error updating fields on server:', error);
+        }
+    }
+
+    useEffect(() => {
+        const fetchFields = async () => {
+            try {
+                const response = await axios.get('http://localhost:4000/api/fields');
+                setFields(response.data);
+            } catch (error) {
+                console.error('Error fetching fields:', error);
+            }
+        };
+
+        fetchFields();
+
+        socket.on('updateFields', (updatedFields) => {
+            setFields(updatedFields);
+        });
+
+        return () => {
+            socket.off('updateFields');
+        };
+    }, []);
 
     ////////////////////
     const [slideSize, setSlideSize] = useState({
@@ -44,11 +74,14 @@ export default function Canvas({ src, alt } : CanvasProps) {
     const slideRef=useRef<HTMLDivElement>(null)
 
     const handleDrag = (id: number,_: DraggableEvent, data: DraggableData) => {
-        setFields(fields.map(
+        const updatedFields = fields.map(
             editor => editor.id === id 
                 ? {...editor, position: { x: data.x, y: data.y}} 
                 : editor
-        ))
+        );
+        setFields(updatedFields);
+
+        updateFieldsOnServer(updatedFields);
     };
 
     useEffect(() => {
@@ -112,11 +145,13 @@ export default function Canvas({ src, alt } : CanvasProps) {
                                 content={content} 
                                 onUpdate={({ editor }) => {
                                     setIsActive(true);
-                                    setFields(fields.map(
+                                    const newFields = fields.map(
                                         field => field.id === selectedId
                                             ? {...field, content: editor.getHTML()} 
                                             : field
-                                    ))
+                                    )
+                                    setFields(newFields)
+                                    updateFieldsOnServer(newFields)
                                 }}
                             />
                         </div>
