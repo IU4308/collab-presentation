@@ -13,8 +13,9 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { colors } from "@/constants";
 import { getActiveColor } from "@/lib/utils";
+import { ColorButtonProps } from "@/definitions";
 
-const Item = ({ editor, color, label }: { editor: Editor, color: string, label: string }) => {
+const Item = ({ editor, color, label }: ColorButtonProps) => {
     return (
         <DropdownMenuRadioItem 
             value={color}
@@ -32,15 +33,15 @@ const Item = ({ editor, color, label }: { editor: Editor, color: string, label: 
     )
 }
 
-export default function ColorButton ({ editor } : { editor: Editor }) {
+export default function ColorButton ({ editor, isEditing } : { editor: Editor, isEditing: boolean}) {
     const activeColor = getActiveColor(editor);
 
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild className="cursor-pointer">
                 <Button
-                    variant={'outline'}
-                    disabled={!editor.can().chain().focus().setColor('#958DF1').run()}
+                    className="bg-gray-200 text-black hover:bg-blue-600 hover:text-white"
+                    disabled={!editor.can().chain().focus().setColor('#958DF1').run() || !isEditing}
                 >
                     <MdFormatColorText style={{ color: activeColor }}  />
                 </Button>
@@ -50,7 +51,12 @@ export default function ColorButton ({ editor } : { editor: Editor }) {
                 <DropdownMenuSeparator />
                 <DropdownMenuRadioGroup value={activeColor}>
                     {colors.map(color => (
-                        <Item key={color.id} editor={editor} color={color.color} label={color.label} />
+                        <Item 
+                            key={color.id} 
+                            editor={editor} 
+                            color={color.color} 
+                            label={color.label} 
+                        />
                     ))}
                 </DropdownMenuRadioGroup>
             </DropdownMenuContent>

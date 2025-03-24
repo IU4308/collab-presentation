@@ -29,5 +29,12 @@ export interface CanvasProps {
 export interface MenuButtonProps {
     editor: Editor;
     type: string;
-    icon: ReactNode
+    icon: ReactNode;
+    isEditing: boolean;
+}
+
+export interface ColorButtonProps {
+    editor: Editor;
+    color: string;
+    label: string;
 }

@@ -1,12 +1,11 @@
 import { Editor } from "@tiptap/core"
-import { Button } from "./ui/button";
 import HeadingButton from "./menu-buttons/heading-button";
-import MenuButton from "./MenuButton";
+import MenuButton from "./menu-buttons/MenuButton";
 import { buttons } from "@/constants";
 import ColorButton from "./menu-buttons/color-button";
 
 
-export default function MenuBar ({ editor } : { editor: Editor | null }) {
+export default function MenuBar ({ editor, isActive } : { editor: Editor | null; isActive: boolean }) {
 
   if (!editor) {
     return null
@@ -14,9 +13,9 @@ export default function MenuBar ({ editor } : { editor: Editor | null }) {
 
   return (
     <>
-      <div className="control-group p-2 bg-gray-100 border-b border-gray-300 rounded-xl ">
-        <div className="button-group flex flex-wrap gap-2">
-          <HeadingButton editor={editor} />
+      <div className="control-group ml-[200px] absolute top-[-55px] z-40 w-[732px] p-2 bg-white border-gray-300 ">
+        <div className="button-group flex w-[732px] gap-2">
+          <HeadingButton editor={editor} isEditing={isActive} />
           
           {buttons.map(button => (
             <MenuButton 
@@ -24,22 +23,11 @@ export default function MenuBar ({ editor } : { editor: Editor | null }) {
               editor={editor}
               type={button.type}
               icon={button.icon}
+              isEditing={isActive}
             />
           ))}
-          {/* <Button
-            onClick={() => editor.chain().focus().setColor('#958DF1').run()}
-            disabled={!editor.can().chain().focus().setColor('#958DF1').run()}
-            className={`px-2 py-1 rounded ${editor.isActive('textStyle', { color: '#958DF1' }) ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800'} hover:bg-blue-600 hover:text-white`}
-          >
-            <div className="h-[10px] w-[10px] bg-[#008000]"></div>
-            <span>Green </span>
-          </Button> */}
-          <ColorButton editor={editor} />
-          <Button
-            onClick={() => editor.chain().focus().run()}
-          >
-            Click
-          </Button>
+          <ColorButton editor={editor} isEditing={isActive} />
+
 
           {/* <button
             onClick={() => console.log(editor.getHTML())}

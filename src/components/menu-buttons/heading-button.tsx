@@ -16,15 +16,20 @@ const Item = ({ editor, level }: { editor: Editor, level: 1 | 2 | 3 | 4 | 5 | 6 
     return (
         <DropdownMenuRadioItem 
             value={`h${level}`}
-            onClick={() => editor.chain().focus().toggleHeading({ level: level }).run()}
-            className="cursor-pointer" 
+            onClick={() => {
+                editor.chain().focus().toggleHeading({ level: level }).run()
+                setTimeout(() => {
+                    editor.chain().focus().run();
+                }, 300);
+            }}
+            className="cursor-pointer " 
         >
             {`H${level}`}
         </DropdownMenuRadioItem>
     )
 }
 
-export default function HeadingButton ({ editor } : { editor: Editor }) {
+export default function HeadingButton ({ editor, isEditing } : { editor: Editor, isEditing: boolean }) {
     const items = Array.from({ length: 6 }, (_, i) => i + 1)
     return (
         <DropdownMenu>
@@ -36,8 +41,9 @@ export default function HeadingButton ({ editor } : { editor: Editor }) {
                         .focus()
                         .toggleHeading({ level: 1 })
                         .run()
+                        || !isEditing
                     } 
-                    variant="outline" 
+                    className="bg-gray-200 text-black hover:bg-blue-600 hover:text-white "
                 >
                     <BiFontSize />
                 </Button>

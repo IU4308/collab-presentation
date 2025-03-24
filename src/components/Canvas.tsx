@@ -36,7 +36,7 @@ export default function Canvas({ src, alt } : CanvasProps) {
     const editor = useEditor({
         extensions,
         content,
-        editable: !isActive,
+        // editable: !isActive,
     })
 
     useEffect(() => {
@@ -57,6 +57,7 @@ export default function Canvas({ src, alt } : CanvasProps) {
 
     return (
         <div ref={slideRef} className="relative min-w-[1024px] w-full h-full  border-2">
+            <MenuBar editor={editor} isActive={isActive} />
             <div className="absolute top-0 left-0 z-30">
                 <Draggable
                     nodeRef={draggableRef as React.RefObject<HTMLElement>}
@@ -75,7 +76,7 @@ export default function Canvas({ src, alt } : CanvasProps) {
                         ref={draggableRef} 
                         className={`handle tiptap min-w-[100px] max-w-[1024px]`}
                     >
-                        {isActive && <MenuBar editor={editor} />}
+                        
                         <EditorContent 
                             className="inline-block w-auto max-w-full  "
                             editor={editor} 

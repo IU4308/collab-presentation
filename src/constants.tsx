@@ -38,7 +38,7 @@ export const buttons = [
   {
     id: 1,
     type: 'bold',
-    icon: <FaBold />
+    icon: <FaBold  />
   },
   {
     id: 2,

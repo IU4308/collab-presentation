@@ -8,7 +8,6 @@ export default function ToolPanel() {
                 <div className=" flex items-center">
                     <Link to={"/"}>
                         <CiHome className="text-xl"/>
-                    
                     </Link>
                 </div>
                 <div className="flex flex-col ">
