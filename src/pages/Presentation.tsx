@@ -4,7 +4,6 @@ import UsersList from "@/components/UsersList";
 import { slides } from "@/constants";
 import { useState } from "react";
 
-import { renderToString } from 'react-dom/server';
 // import { useParams } from "react-router"
 
 export default function Presentation() {
@@ -16,10 +15,6 @@ export default function Presentation() {
     }
 
     const currentSlide = slides.find(slide => slide.id === currentSlideId)
-    
-
-    // const html = renderToString(<Canvas {...currentSlide!} />);
-    // console.log(html)
 
     return (
         <main className=" h-screen flex flex-col overflow-x-auto">
