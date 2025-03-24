@@ -1,4 +1,3 @@
-import { Editor } from "@tiptap/core"
 import { Button } from "../ui/button"
 import { MdFormatColorText } from "react-icons/md";
 
@@ -13,17 +12,23 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { colors } from "@/constants";
 import { getActiveColor } from "@/lib/utils";
-import { ColorButtonProps } from "@/definitions";
+import { useCurrentEditor } from "@tiptap/react";
 
-const Item = ({ editor, color, label, handleRender }: ColorButtonProps) => {
+const Item = ({ 
+    color, 
+    label 
+}: {
+    color: string;
+    label: string;
+}) => {
+    const { editor } = useCurrentEditor()
     return (
         <DropdownMenuRadioItem 
             value={color}
             onClick={() => {
-                handleRender()
-                editor.chain().focus().setColor(color).run();
+                editor!.chain().focus().setColor(color).run();
                 setTimeout(() => {
-                    editor.chain().focus().run();
+                    editor!.chain().focus().run();
                 }, 300);
             }}
             className="cursor-pointer flex items-center gap-2" 
@@ -34,15 +39,16 @@ const Item = ({ editor, color, label, handleRender }: ColorButtonProps) => {
     )
 }
 
-export default function ColorButton ({ editor, handleRender } : { editor: Editor, handleRender: () => void }) {
-    const activeColor = getActiveColor(editor);
+export default function ColorButton () {
+    const { editor } = useCurrentEditor()
+    const activeColor = getActiveColor(editor!);
 
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild className="cursor-pointer">
                 <Button
                     className="bg-gray-200 text-black hover:bg-blue-600 hover:text-white"
-                    disabled={!editor.can().chain().focus().setColor('#958DF1').run() || !editor.isEditable}
+                    disabled={!editor!.can().chain().focus().setColor('#958DF1').run() || !editor!.isEditable}
                 >
                     <MdFormatColorText style={{ color: activeColor }}  />
                 </Button>
@@ -54,10 +60,8 @@ export default function ColorButton ({ editor, handleRender } : { editor: Editor
                     {colors.map(color => (
                         <Item 
                             key={color.id} 
-                            editor={editor} 
                             color={color.color} 
                             label={color.label} 
-                            handleRender={handleRender}
                         />
                     ))}
                 </DropdownMenuRadioGroup>

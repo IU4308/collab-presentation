@@ -1,6 +1,3 @@
-import { Editor } from "@tiptap/core";
-import { ReactNode } from "react";
-
 export interface SlidesListProps {
     currentSlideId: number;
     handleSlideSelection: (id: number) => void;
@@ -24,28 +21,4 @@ export interface CanvasProps {
     id: number;
     src: string;
     alt: string;
-}
-
-export interface MenuBarProps { 
-    editor: Editor | null; 
-    handleRender: () => void 
-}
-
-export interface MenuButtonProps {
-    editor: Editor;
-    type: string;
-    icon: ReactNode;
-    handleRender: () => void
-}
-
-export interface HeadingButtonProps {
-    editor: Editor, 
-    handleRender: () => void
-}
-
-export interface ColorButtonProps {
-    editor: Editor;
-    color: string;
-    label: string;
-    handleRender: () => void
 }
