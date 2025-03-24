@@ -2,6 +2,7 @@ import { CanvasProps } from "@/definitions";
 import { useEffect, useRef, useState } from "react";
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 import { Content, EditorProvider } from "@tiptap/react";
+import { BiText } from "react-icons/bi";
 
 import {
     useWindowSize,
@@ -11,8 +12,13 @@ import MenuBar from "./MenuBar";
 import { extensions } from "@/constants";
 import { Button } from "./ui/button";
 
+import placeholderData from "../placeholder-data.json";
+import { parseStringify } from "@/lib/utils";
+
 export default function Canvas({ src, alt } : CanvasProps) {
-    const [fields, setFields] = useState<{ id: number, content: Content, position: { x: number, y: number } }[]>([]);
+    const data = parseStringify(placeholderData)
+    
+    const [fields, setFields] = useState<{ id: number, content: Content, position: { x: number, y: number } }[]>([...data]);
     const [selectedId, setSelectedId] = useState(0);
     const [isActive, setIsActive] = useState(false)
     
@@ -21,9 +27,7 @@ export default function Canvas({ src, alt } : CanvasProps) {
     }
 
     const addEditor = () => {
-        const newId = fields.length + 1
         setFields([...fields, { id: fields.length + 1, content: '<p>Add Text</p>', position: { x: 50, y: 100 } }]);
-        handleSelectedId(newId);
     }
 
     ////////////////////
@@ -62,11 +66,15 @@ export default function Canvas({ src, alt } : CanvasProps) {
     }
     //////////////////////
 
+    // console.log(fields)
+
     return (
         <div ref={slideRef} className="relative z-40 min-w-[1024px] w-full h-[calc(100%+45px)] overflow-clip ">
-            <Button className="relative z-50 cursor-pointer" onClick={() => {
-                addEditor()
-            }}>Add Text</Button>
+            <div className="py-2 flex gap-2">
+                <Button variant={'default'} className="relative z-50 cursor-pointer text-white" onClick={addEditor}>
+                    <BiText />
+                </Button>
+            </div>
             {fields.map(({ id, content, position }) => (
                 <div key={id} className="absolute top-0 left-0 z-30">
                     <Draggable
@@ -84,7 +92,7 @@ export default function Canvas({ src, alt } : CanvasProps) {
                         <div 
                             ref={draggableRef} 
                             onClick={() => {
-                                setSelectedId(id)
+                                handleSelectedId(id)
                             }}
                             className={`handle tiptap min-w-[100px] max-w-[1024px]`}
                         >
@@ -112,7 +120,7 @@ export default function Canvas({ src, alt } : CanvasProps) {
                 className="relative z-20 object-cover h-[100%] w-[100%] cursor-pointer" 
                 onClick={() => {
                     setIsActive(false)
-                    setSelectedId(0)
+                    handleSelectedId(0)
                 }}
             />
 

@@ -22,3 +22,9 @@ export interface CanvasProps {
     src: string;
     alt: string;
 }
+
+export interface EditorData { 
+    id: number; 
+    content: string; 
+    position: { x: number; y: number }; 
+}

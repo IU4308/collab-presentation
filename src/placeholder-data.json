@@ -1,0 +1,18 @@
+
+[
+    {
+        "id": 1,
+        "content": "<p>Text1</p>",
+        "position": {"x": 100, "y": 200}
+    },
+    {
+        "id": 2,
+        "content": "<p>Text2</p>",
+        "position": {"x": 150, "y": 300}
+    },
+    {
+        "id": 3,
+        "content": "<p>Text</p>",
+        "position": {"x": 250, "y": 400}
+    }
+]
