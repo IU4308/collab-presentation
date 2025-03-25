@@ -71,8 +71,9 @@ export default function Canvas({ src, alt } : CanvasProps) {
 
         socket.on('updateFields', (updatedFields) => {
             // if (JSON.stringify(fields) !== JSON.stringify(updatedFields)) {
-                // console.log('Updating fields state with real-time data:', updatedFields);
+                // console.log(updatedFields);
                 setFields(() => [...updatedFields]); // Create a new array reference
+                // console.log(fields)
             // }
         });
 
@@ -80,6 +81,7 @@ export default function Canvas({ src, alt } : CanvasProps) {
             socket.off('updateFields');
         };
     }, []);
+
 
     // const [clientId, setClientId] = useState<string | null>(null)
     // const [editingStatus, setEditingStatus] = useState<{ [fieldId: number]: string }>({});
@@ -165,6 +167,7 @@ export default function Canvas({ src, alt } : CanvasProps) {
                 </Button>
             </div>
             {fields.map(({ id, content, position }) => {
+                // console.log(fields)
                 // console.log(id, content, position)
                 return (<div key={id} className="absolute top-0 left-0 z-30">
                     <div 
@@ -188,7 +191,7 @@ export default function Canvas({ src, alt } : CanvasProps) {
                                 )
                                 setFields(newFields)
                                 updateFieldsOnServer(newFields)
-                                editor.chain().focus().run()
+                                // console.log(editor.getHTML())
                             }}
                             customOptions={{
                                 handleDrag,
@@ -198,7 +201,6 @@ export default function Canvas({ src, alt } : CanvasProps) {
                                 selectedId: selectedId || 0, // Provide a fallback value for `selectedId`
                                 handleSelectedId,
                             }}
-                            
                         />
                         {/* {editingStatus[id] && editingStatus[id] !== clientId && (
                             <div className="absolute top-0 right-0 bg-red-500 text-white text-xs px-2 py-1 rounded">

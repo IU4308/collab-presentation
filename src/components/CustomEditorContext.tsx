@@ -2,6 +2,7 @@ import { Editor } from '@tiptap/core'
 import { EditorContent, useEditor, UseEditorOptions } from '@tiptap/react';
 import {
     createContext, HTMLAttributes, ReactNode, RefObject, useContext,
+    useEffect,
     useRef,
 } from 'react'
 import Draggable from 'react-draggable';
@@ -40,7 +41,6 @@ export function EditorProvider({
     children, slotAfter, slotBefore,customOptions,editorContainerProps = {}, ...editorOptions
 } : EditorProviderProps) {
     const { 
-        // draggableRef, 
         position, 
         handleDrag, 
         bounds, 
@@ -50,13 +50,19 @@ export function EditorProvider({
     } = {...customOptions}
     const draggableRef = useRef<HTMLDivElement>(null)
 
-    // console.log(editorOptions)
-
+    
     const editor = useEditor(editorOptions)
 
-    // if (selectedId == id) {
-    //     editor?.chain().focus().run()
-    // }
+    useEffect(() => {
+        if (editor && editorOptions.content) {
+            const currentContent = editor.getJSON();
+            if (JSON.stringify(currentContent) !== JSON.stringify(editorOptions.content)) {
+                const { from, to } = editor.state.selection;
+                editor.commands.setContent(editorOptions.content); 
+                editor.commands.setTextSelection({ from, to }); 
+            }
+        }
+    }, [editor, editorOptions.content]);
 
     if (!editor) {
         return null
