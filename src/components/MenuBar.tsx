@@ -2,42 +2,40 @@ import HeadingButton from "./menu-buttons/heading-button";
 import MenuButton from "./menu-buttons/MenuButton";
 import { buttons } from "@/constants";
 import ColorButton from "./menu-buttons/color-button";
-import { useCurrentEditor } from "@tiptap/react";
+import { Editor } from "@tiptap/react";
 
 export default function MenuBar ({ 
+    editor,
+    // isActive,
     selectedId,
-    currentId,
-    shift
+    currentId
 } : { 
+    editor: Editor | null;
     selectedId: number; 
     currentId: number;
-    shift: number;
 }) {
-    const { editor } = useCurrentEditor()
-
     if (!editor) {
         return null
     }
 
     return (
-      <>
-          {selectedId === currentId && (
-              <div
-                style={{ left: `${shift}px` }}
-                className="absolute  top-[-60px] control-group w-[732px] p-2 rounded-xl bg-white border-gray-300 ">
-                  <div className="button-group flex w-[732px] gap-2">
-                      <HeadingButton  />
-                      <ColorButton/>
-                      {buttons.map(button => (
-                          <MenuButton 
+        <>
+            {currentId === selectedId &&(<div className="absolute z-50 top-0 left-[150px] control-group w-[732px] p-2 rounded-xl bg-white border-gray-300 ">
+                <div className="button-group flex w-[732px] gap-2">
+                    <HeadingButton editor={editor} selectedId={selectedId} currentId={currentId}   />
+                    <ColorButton editor={editor} selectedId={selectedId} currentId={currentId} />
+                    {buttons.map(button => (
+                        <MenuButton 
                             key={button.id}
+                            editor={editor}
+                            selectedId={selectedId} 
+                            currentId={currentId}
                             type={button.type}
                             icon={button.icon}
-                          />
-                      ))}
-                  </div>
-              </div>
-          )}
-      </>
+                        />
+                    ))}
+                </div>
+            </div>)}
+        </>
     )
 }

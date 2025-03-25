@@ -217,7 +217,7 @@
   }
 
   /* Code and preformatted text styles */
-  code {
+  /* code {
     background-color: var(--purple-light);
     border-radius: 0.4rem;
     color: var(--black);
@@ -239,12 +239,51 @@
       font-size: 0.8rem;
       padding: 0;
     }
-  }
+  } */
 
-  blockquote {
+  code {
+    background-color: var(--muted); /* Subtle background color */
+    border-radius: 0.4rem; /* Rounded corners */
+    color: var(--muted-foreground); /* Text color for contrast */
+    font-size: 0.85rem;
+    padding: 0.25em 0.4em; /* Adjust padding for better spacing */
+    font-family: 'JetBrainsMono', monospace; /* Ensure consistent font */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+}
+
+pre {
+    background-color: var(--black); /* Dark background for contrast */
+    border-radius: 0.5rem; /* Rounded corners */
+    color: var(--white); /* Text color for readability */
+    font-family: 'JetBrainsMono', monospace; /* Monospace font for code */
+    margin: 1.5rem 0;
+    padding: 1rem 1.5rem; /* Adjust padding for better spacing */
+    overflow-x: auto; /* Enable horizontal scrolling for long code */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+
+    code {
+        background: none; /* Remove background for inline code */
+        color: inherit; /* Inherit text color */
+        font-size: 0.9rem; /* Slightly larger font size */
+        padding: 0; /* Remove padding for inline code */
+    }
+}
+
+  /* blockquote {
     border-left: 3px solid var(--gray-3);
     margin: 1.5rem 0;
     padding-left: 1rem;
+  } */
+
+  blockquote {
+    border-left: 4px solid var(--gray-3); /* Slightly thicker border */
+    margin: 1.5rem 0;
+    padding: 1rem 1.5rem; /* Add more padding for better readability */
+    background-color: var(--muted); /* Subtle background color */
+    color: var(--muted-foreground); /* Adjust text color for contrast */
+    font-style: italic; /* Emphasize the text */
+    border-radius: 0.5rem; /* Add rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
   }
 
   hr {

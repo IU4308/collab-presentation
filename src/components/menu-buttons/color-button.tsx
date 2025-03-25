@@ -1,6 +1,5 @@
 import { Button } from "../ui/button"
 import { MdFormatColorText } from "react-icons/md";
-
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -12,16 +11,18 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { colors } from "@/constants";
 import { getActiveColor } from "@/lib/utils";
-import { useCurrentEditor } from "@tiptap/react";
+import { Editor } from "@tiptap/react";
+import { HeadingColorButtonsProps } from "@/definitions";
 
 const Item = ({ 
+    editor,
     color, 
     label 
 }: {
+    editor: Editor;
     color: string;
     label: string;
 }) => {
-    const { editor } = useCurrentEditor()
     return (
         <DropdownMenuRadioItem 
             value={color}
@@ -31,6 +32,10 @@ const Item = ({
                     editor!.chain().focus().run();
                 }, 300);
             }}
+            disabled={
+                !editor.can().chain().focus().setColor(color).run()
+                
+            }
             className="cursor-pointer flex items-center gap-2" 
         >
             <div style={{ backgroundColor: color }} className="h-[10px] w-[10px]"></div>
@@ -39,8 +44,8 @@ const Item = ({
     )
 }
 
-export default function ColorButton () {
-    const { editor } = useCurrentEditor()
+export default function ColorButton ({ editor, currentId, selectedId }: HeadingColorButtonsProps) {
+    // const { editor } = useCurrentEditor()
     const activeColor = getActiveColor(editor!);
 
     return (
@@ -48,7 +53,11 @@ export default function ColorButton () {
             <DropdownMenuTrigger asChild className="cursor-pointer">
                 <Button
                     className="bg-gray-200 text-black hover:bg-blue-600 hover:text-white"
-                    disabled={!editor!.can().chain().focus().setColor('#958DF1').run() || !editor!.isEditable}
+                    disabled={
+                        !editor!.can().chain().focus().setColor('#958DF1').run() 
+                        || selectedId !== currentId
+                        // || !editor!.isEditable
+                    }
                 >
                     <MdFormatColorText style={{ color: activeColor }}  />
                 </Button>
@@ -59,6 +68,7 @@ export default function ColorButton () {
                 <DropdownMenuRadioGroup value={activeColor}>
                     {colors.map(color => (
                         <Item 
+                            editor={editor}
                             key={color.id} 
                             color={color.color} 
                             label={color.label} 

@@ -10,10 +10,10 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { getActiveHeading } from "@/lib/utils";
 import { BiFontSize } from "react-icons/bi";
-import { useCurrentEditor } from "@tiptap/react";
+import { Editor } from "@tiptap/react";
+import { HeadingColorButtonsProps } from "@/definitions";
 
-const Item = ({ level }: { level: 1 | 2 | 3 | 4 | 5 | 6 }) => {
-    const { editor } = useCurrentEditor()
+const Item = ({ editor, level }: { editor: Editor; level: 1 | 2 | 3 | 4 | 5 | 6 }) => {
     return (
         <DropdownMenuRadioItem 
             value={`h${level}`}
@@ -37,15 +37,17 @@ const Item = ({ level }: { level: 1 | 2 | 3 | 4 | 5 | 6 }) => {
     )
 }
 
-export default function HeadingButton () {
+export default function HeadingButton ({ editor, currentId, selectedId }: HeadingColorButtonsProps) {
     const items = Array.from({ length: 6 }, (_, i) => i + 1)
-    const { editor } = useCurrentEditor()
+    // const { editor } = useCurrentEditor()
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild className="cursor-pointer">
                 <Button 
                     disabled={
-                        false
+                        // false
+                        !editor.can().chain().focus().toggleHeading({ level: 1 }).run()
+                        || selectedId !== currentId
                         // !editor.isEditable
                     } 
                     // onClick={editor?.chain().focus().run()}
@@ -60,7 +62,7 @@ export default function HeadingButton () {
                 <DropdownMenuRadioGroup value={getActiveHeading(editor!) ?? ''}  >
                     {/* <Item editor={editor} value="h1" /> */}
                     {items.map(item => (
-                        <Item key={item} level={item as 1 | 2 | 3 | 4 | 5 | 6} />
+                        <Item key={item} editor={editor} level={item as 1 | 2 | 3 | 4 | 5 | 6} />
                     ))}
                 </DropdownMenuRadioGroup>
             </DropdownMenuContent>
