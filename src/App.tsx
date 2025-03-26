@@ -8,7 +8,7 @@ function App() {
     return (
         <Routes>
             <Route index element={<Home />}/>
-            <Route path="presentation/:id" element={<Presentation />}/>
+            <Route path="presentations/:presentationId" element={<Presentation />}/>
             {/* <Route path="test" element={<Test />}/> */}
         </Routes>
     )

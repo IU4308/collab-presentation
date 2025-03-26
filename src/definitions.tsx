@@ -3,32 +3,35 @@ import { ReactNode } from "react";
 import { DraggableData, DraggableEvent } from "react-draggable";
 
 export interface SlidesListProps {
-    currentSlideId: number;
-    handleSlideSelection: (id: number) => void;
+    slides: Slide[] | undefined;
+    currentSlideId: string;
+    handleSlideSelection: (id: string) => void;
 }
 
 export interface SlidePreviewProps { 
-    id: number;
+    slideId: string;
+    fields: Field[];
     src: string; 
     alt: string;
-    currentSlideId: number;
-    handleSlideSelection: (id: number) => void;
+    currentSlideId: string;
+    handleSlideSelection: (id: string) => void;
 }
 
 export interface PreviewProps {
-    id: number;
+    id: string;
     src: string;
     alt: string;
 }
 
 export interface CanvasProps {
-    id: number;
+    slideId: string;
+    fields: Field [];
     src: string;
     alt: string;
 }
 
 export interface EditorData { 
-    id: number; 
+    id: string; 
     content: string; 
     position: { x: number; y: number }; 
 }
@@ -36,8 +39,8 @@ export interface EditorData {
 export interface HeadingColorButtonsProps {
     editor: Editor;
     // isActive: boolean;
-    currentId: number;
-    selectedId: number;
+    currentId: string;
+    selectedId: string;
 }
 
 export interface MenuButtonProps extends HeadingColorButtonsProps {
@@ -46,7 +49,7 @@ export interface MenuButtonProps extends HeadingColorButtonsProps {
 }
 
 export interface Field {
-    id: number;
+    id: string;
     content: Content;
     position: {
         x: number;
@@ -55,7 +58,7 @@ export interface Field {
 }
 
 export interface EditorCustomOptions {
-    handleDrag: (id: number, _: DraggableEvent, data: DraggableData) => void, 
+    handleDrag: (id: string, _: DraggableEvent, data: DraggableData) => void, 
     bounds: {
         left: number;
         top: number;
@@ -63,7 +66,26 @@ export interface EditorCustomOptions {
         bottom: number;
     };
     position: { x: number, y: number}
-    selectedId: number,
-    handleSelectedId: (id: number) => void;
-    id: number;
+    selectedId: string,
+    handleSelectedId: (id: string) => void;
+    id: string;
+}
+
+export interface Slide {
+    slideId: string;
+    src: string;
+    alt: string;
+    fields: {
+        id: string;
+        content: string;
+        position: { x: number; y: number}
+    }[]
+}
+
+export interface PresentationType {
+    presentationId: string;
+    cover: string;
+    creatorId: string;
+    editorsId: string[];
+    slides: Slide[];
 }

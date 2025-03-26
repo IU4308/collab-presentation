@@ -1,4 +1,4 @@
-import { slides } from "@/constants";
+// import { slides } from "@/constants";
 import SlidePreview from "./SlidePreview";
 import { SlidesListProps } from "@/definitions";
 import { IoAddSharp } from "react-icons/io5";
@@ -8,6 +8,7 @@ import { CiHome } from "react-icons/ci";
 
 
 export default function SlidesList({ 
+    slides,
     currentSlideId,
     handleSlideSelection 
 } : SlidesListProps) {
@@ -28,9 +29,9 @@ export default function SlidesList({
                 <h1 className="font-bold">Slides</h1>
                 <Button variant={'outline'} className="cursor-pointer"><IoAddSharp /></Button >
                 <ul className="flex flex-col gap-2">
-                    {slides.map(slide => (
+                    {slides?.map(slide => (
                         <SlidePreview 
-                            key={slide.id}
+                            key={slide.slideId}
                             {...slide} 
                             currentSlideId={currentSlideId}
                             handleSlideSelection={handleSlideSelection}

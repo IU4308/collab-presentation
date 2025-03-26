@@ -1,7 +1,7 @@
 import { SlidePreviewProps } from "@/definitions";
 
 export default function SlidePreview({ 
-    id, 
+    slideId, 
     src, 
     alt, 
     currentSlideId,
@@ -12,8 +12,8 @@ export default function SlidePreview({
             <img 
                 src={src} 
                 alt={alt}
-                onClick={() => handleSlideSelection(id)}
-                className={`object-cover rounded-xl aspect-video cursor-pointer border-2 ${id === currentSlideId && 'border-4 border-orange-500'}`} 
+                onClick={() => handleSlideSelection(slideId)}
+                className={`object-cover rounded-xl aspect-video cursor-pointer border-2 ${slideId === currentSlideId && 'border-4 border-orange-500'}`} 
             />
         </li>
     )
