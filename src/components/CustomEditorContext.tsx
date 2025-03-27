@@ -46,12 +46,12 @@ export function EditorProvider({
         bounds, 
         id,
         selectedId,
-        handleSelectedId 
+        handleSelectedId,
+        role 
     } = {...customOptions}
     const draggableRef = useRef<HTMLDivElement>(null)
-
     
-    const editor = useEditor(editorOptions)
+    const editor = useEditor(editorOptions, [role])
 
     useEffect(() => {
         if (editor && editorOptions.content) {
@@ -71,11 +71,11 @@ export function EditorProvider({
     return (
         <EditorContext.Provider value={{ editor }}>
             {slotBefore}
-            <MenuBar 
+            {role !== 'viewer' && <MenuBar 
                 editor={editor} 
                 selectedId={selectedId} 
                 currentId={id} 
-            />
+            />}
             <Draggable
                 nodeRef={draggableRef as RefObject<HTMLElement>}
                 axis="both"
@@ -85,7 +85,7 @@ export function EditorProvider({
                 scale={1}
                 onDrag={(e, data) => handleDrag(id, e, data)}
                 onStop={(e, data) => handleDrag(id, e, data)}
-                disabled={selectedId !== 0}
+                disabled={selectedId !== 0 || role === 'viewer'}
                 bounds={bounds}
             >
                 <div

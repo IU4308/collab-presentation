@@ -16,7 +16,7 @@ import { useDebouncedCallback } from 'use-debounce';
 const apiUrl = import.meta.env.VITE_API_URL 
 const socket = io(apiUrl);
 
-export default function Canvas({ src, alt, slideId, fields } : CanvasProps) {
+export default function Canvas({ src, alt, slideId, fields, role } : CanvasProps) {
     const [localFields, setLocalFields] = useState<Field[]>(fields);
     const [selectedId, setSelectedId] = useState('');
     const presentationId = useParams().presentationId
@@ -48,7 +48,6 @@ export default function Canvas({ src, alt, slideId, fields } : CanvasProps) {
     }
 
     const handleUpdateField = async (id: string, updatedField: Field) => {
-        console.log(updatedField!.content)
         setLocalFields((prevFields) =>
             prevFields.map((field) =>
                 field.id === id ? { ...field, content: updatedField.content, position: updatedField.position } : field
@@ -141,28 +140,26 @@ export default function Canvas({ src, alt, slideId, fields } : CanvasProps) {
         bottom: slideSize.height
     }
     //////////////////////
-
     return (
-        <div ref={slideRef} className="relative z-40 min-w-[1024px] w-full h-[calc(100%+45px)] overflow-clip ">
-            <div className="relative top-0 py-2 flex gap-2 z-40 w-[100px]">
+        <div ref={slideRef} className="relative z-40 min-w-[1024px] w-full h-[calc(100%+45px)] overflow-clip border-2">
+            {role !== 'viewer' && <div className="relative top-0 py-2 flex gap-2 z-40 w-[100px]">
                 <Button variant={'outline'} className=" z-50 cursor-pointer text-white" onClick={handleAddField}>
                     <BiText className="text-black" />
                 </Button>
                 <Button className="cursor-pointer" variant={'outline'} onClick={handleDeleteField}>
                     <ImCross className="text-red-500" />
                 </Button>
-            </div>
+            </div>}
             {localFields.map(({ id, content, position }) =>  (
                 <div key={id} className="absolute top-0 left-0 z-30">
                     <div 
-                        // style={{ whiteSpace: 'pre-wrap' }}
                         onClick={() => {
                             handleSelectedId(id)
                         }} 
                     >
                         <EditorProvider
                             extensions={extensions} 
-                            // editable={isActive}  
+                            editable={role !== 'viewer'}  
                             content={content} 
                             onUpdate={({ editor }) => {
                                 debouncedUpdateField(id, { ...localFields.find(f => f.id === id)!, content: editor.getHTML().replace(/ /g, '&nbsp;') });
@@ -177,6 +174,7 @@ export default function Canvas({ src, alt, slideId, fields } : CanvasProps) {
                                 position,
                                 selectedId: selectedId || 0,
                                 handleSelectedId,
+                                role
                             }}
                             
                         />

@@ -18,7 +18,7 @@ export interface SlidePreviewProps {
 }
 
 export interface PreviewProps {
-    // id: string;
+    id: string;
     src: string;
     alt: string;
 }
@@ -28,6 +28,7 @@ export interface CanvasProps {
     fields: Field [];
     src: string;
     alt: string;
+    role: 'viewer' | 'editor' | 'creator' | undefined;
 }
 
 export interface EditorData { 
@@ -88,4 +89,11 @@ export interface PresentationType {
     creatorId: string;
     editorsId: string[];
     slides: Slide[];
+}
+
+export interface UserType {
+    socketId: string;
+    presentationId: string;
+    username: string;
+    role: 'viewer' | 'editor' | 'creator';
 }

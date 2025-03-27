@@ -42,7 +42,7 @@ export default function Header() {
         <div className="">
             <Dialog open={open} onOpenChange={setOpen} >
                 <DialogTrigger asChild>
-                    <Button className="" variant="outline">
+                    <Button className="cursor-pointer" variant="outline">
                         <CiSquarePlus className="text-4xl" />
                         Create new presentation
                     </Button>
@@ -74,6 +74,7 @@ export default function Header() {
                     </div>
                     <DialogFooter>
                         <Button 
+                            className="cursor-pointer" 
                             type="button" 
                             onClick={handleCreatePresentation}
                         >

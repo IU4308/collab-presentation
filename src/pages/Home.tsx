@@ -8,8 +8,6 @@ import { io } from "socket.io-client";
 const apiUrl = import.meta.env.VITE_API_URL 
 const socket = io(apiUrl);
 
-console.log(apiUrl)
-
 export default function Home() {
     const [presentations, setPresentations] = useState<PresentationType[] | null>(null)
 
@@ -26,7 +24,6 @@ export default function Home() {
     
             fetchPresentation();
         }, [])
-    
         useEffect(() => {
             socket.on('newPresentation', (newPresentation: PresentationType) => {
                 if (presentations !== null) {
@@ -39,8 +36,6 @@ export default function Home() {
             }
         }, [presentations])
 
-        console.log(presentations)
-
     return (
         <main className="min-h-screen py-4 flex flex-col gap-2 items-center">
             <Header />
@@ -51,6 +46,7 @@ export default function Home() {
                         key={p.presentationId}  
                         src={p.slides[0].src}
                         alt={p.slides[0].alt}
+                        id={p.presentationId}
                     />
                 ))}
             </div>
