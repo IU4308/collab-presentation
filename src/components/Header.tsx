@@ -11,11 +11,36 @@ import {
     DialogTrigger,
   } from "@/components/ui/dialog"
 import { CiSquarePlus } from "react-icons/ci"
+import { useState } from "react"
+import axios from "axios"
+
+// const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:4000";
+const apiUrl = "http://localhost:4000";
 
 export default function Header() {
+    const [username, setUsername] = useState("");
+    const [title, setTitle] = useState("");
+    const [open, setOpen] = useState(false)
+
+    const handleCreatePresentation = async () => {
+        try {
+            const newPresentation = {
+                username,
+                title,
+            };
+            const response = await axios.post(`${apiUrl}/presentations`, newPresentation);
+            console.log("Presentation created:", response.data);
+            setUsername("");
+            setTitle("");
+            setOpen(false);
+        } catch (error) {
+            console.error("Error creating presentation:", error);
+        }
+    };
+
     return (
         <div className="">
-            <Dialog>
+            <Dialog open={open} onOpenChange={setOpen} >
                 <DialogTrigger asChild>
                     <Button className="" variant="outline">
                         <CiSquarePlus className="text-4xl" />
@@ -25,20 +50,35 @@ export default function Header() {
                 <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
                         <DialogTitle>Create new presentation</DialogTitle>
-                        <DialogDescription>Specify your nickname and title of the presentation</DialogDescription>
+                        <DialogDescription>Specify your username and title of the presentation</DialogDescription>
                     </DialogHeader>
                     <div className="grid gap-4 py-4">
                         <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="name" className="text-right">Nickname</Label>
-                            <Input id="name" value="" className="col-span-3" />
+                            <Label htmlFor="username" className="text-right">Username</Label>
+                            <Input 
+                                id="username" 
+                                className="col-span-3" 
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)} 
+                            />
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="username" className="text-right">Title</Label>
-                            <Input id="username" value="" className="col-span-3" />
+                            <Label htmlFor="title" className="text-right">Title</Label>
+                            <Input 
+                                id="title" 
+                                className="col-span-3"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)} 
+                            />
                         </div>
                     </div>
                     <DialogFooter>
-                        <Button type="submit">Create</Button>
+                        <Button 
+                            type="button" 
+                            onClick={handleCreatePresentation}
+                        >
+                            Create
+                        </Button>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>

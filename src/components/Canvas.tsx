@@ -10,10 +10,11 @@ import axios from "axios";
 import { EditorProvider } from "./CustomEditorContext";
 import { useParams } from "react-router";
 import { v4 as uuidv4 } from 'uuid';
-import { debounce } from "lodash";
+// import { debounce } from "lodash";
 import { io } from "socket.io-client";
+import { useDebouncedCallback } from 'use-debounce';
 
-const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:4000';
+const apiUrl = import.meta.env.VITE_API_URL 
 const socket = io(apiUrl);
 
 export default function Canvas({ src, alt, slideId, fields } : CanvasProps) {
@@ -64,13 +65,18 @@ export default function Canvas({ src, alt, slideId, fields } : CanvasProps) {
         }
     }
 
-    const debouncedUpdateField = debounce((updatedField: Field) => {
+    const debouncedUpdateField = useDebouncedCallback((updatedField: Field) => {
         handleUpdateField(updatedField);
     }, 300);
 
     const handleDrag = async (id: string, _: DraggableEvent, data: DraggableData) => {
         const field = localFields.find(f => f.id === id); 
         const updatedField = {...field, position: { x: data.x, y: data.y }}
+        // if (!field) {
+        //     console.error(`Field with id ${id} not found`);
+        //     return;
+        // }
+        console.log(updatedField)
         setLocalFields((prevFields) =>
             prevFields.map((field) =>
                 field.id === id ? { ...field, position: updatedField.position } : field

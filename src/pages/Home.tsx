@@ -3,10 +3,12 @@ import Header from "@/components/Header";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { PresentationType } from "@/definitions";
-// import { io } from "socket.io-client";
+import { io } from "socket.io-client";
 
-const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:4000';
-// const socket = io(apiUrl);
+const apiUrl = import.meta.env.VITE_API_URL 
+const socket = io(apiUrl);
+
+console.log(apiUrl)
 
 export default function Home() {
     const [presentations, setPresentations] = useState<PresentationType[] | null>(null)
@@ -25,15 +27,19 @@ export default function Home() {
             fetchPresentation();
         }, [])
     
-        // useEffect(() => {
-        //     socket.on('updatePresentation', (updatedPresentation: PresentationType) => {
-        //         setPresentation(updatedPresentation)
-        //     })
+        useEffect(() => {
+            socket.on('newPresentation', (newPresentation: PresentationType) => {
+                if (presentations !== null) {
+                    setPresentations((prevPresentations) => prevPresentations ? [...prevPresentations, newPresentation] : [newPresentation])
+                }
+            })
     
-        //     return () => {
-        //         socket.off('updatedPresentation')
-        //     }
-        // }, [])
+            return () => {
+                socket.off('newPresentation')
+            }
+        }, [presentations])
+
+        console.log(presentations)
 
     return (
         <main className="min-h-screen py-4 flex flex-col gap-2 items-center">
