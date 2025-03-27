@@ -10,7 +10,6 @@ import axios from "axios";
 import { EditorProvider } from "./CustomEditorContext";
 import { useParams } from "react-router";
 import { v4 as uuidv4 } from 'uuid';
-// import { debounce } from "lodash";
 import { io } from "socket.io-client";
 import { useDebouncedCallback } from 'use-debounce';
 
@@ -20,13 +19,11 @@ const socket = io(apiUrl);
 export default function Canvas({ src, alt, slideId, fields } : CanvasProps) {
     const [localFields, setLocalFields] = useState<Field[]>(fields);
     const [selectedId, setSelectedId] = useState('');
-    const selectedField = localFields.find(field => field.id === selectedId)
     const presentationId = useParams().presentationId
 
     const handleSelectedId = (id: string) => {
         setSelectedId(id)
     }
-
 
     const handleAddField = async () => {
         const newField = { id: uuidv4(), content: '<p>Add Text</p>', position: { x: 100, y: 300 } };
@@ -50,33 +47,28 @@ export default function Canvas({ src, alt, slideId, fields } : CanvasProps) {
         }
     }
 
-    const handleUpdateField = async (updatedField: Field) => {
-        console.log(updatedField)
+    const handleUpdateField = async (id: string, updatedField: Field) => {
+        console.log(updatedField!.content)
         setLocalFields((prevFields) =>
             prevFields.map((field) =>
-                field.id === selectedId ? { ...field, content: updatedField.content, position: updatedField.position } : field
+                field.id === id ? { ...field, content: updatedField.content, position: updatedField.position } : field
             )
         );
         try {
-            await axios.put(`${apiUrl}/presentations/${presentationId}/slides/${slideId}/fields/${selectedId}`, updatedField);
-            socket.emit('updateField', { slideId, fieldId: selectedId, updatedField })
+            await axios.put(`${apiUrl}/presentations/${presentationId}/slides/${slideId}/fields/${id}`, updatedField);
+            socket.emit('updateField', { slideId, fieldId: id, updatedField })
         } catch (error) {
             console.error('Error updating fields:', error);
         }
     }
 
-    const debouncedUpdateField = useDebouncedCallback((updatedField: Field) => {
-        handleUpdateField(updatedField);
+    const debouncedUpdateField = useDebouncedCallback((id: string, updatedField: Field) => {
+        handleUpdateField(id, updatedField);
     }, 300);
 
     const handleDrag = async (id: string, _: DraggableEvent, data: DraggableData) => {
         const field = localFields.find(f => f.id === id); 
         const updatedField = {...field, position: { x: data.x, y: data.y }}
-        // if (!field) {
-        //     console.error(`Field with id ${id} not found`);
-        //     return;
-        // }
-        console.log(updatedField)
         setLocalFields((prevFields) =>
             prevFields.map((field) =>
                 field.id === id ? { ...field, position: updatedField.position } : field
@@ -163,6 +155,7 @@ export default function Canvas({ src, alt, slideId, fields } : CanvasProps) {
             {localFields.map(({ id, content, position }) =>  (
                 <div key={id} className="absolute top-0 left-0 z-30">
                     <div 
+                        // style={{ whiteSpace: 'pre-wrap' }}
                         onClick={() => {
                             handleSelectedId(id)
                         }} 
@@ -172,8 +165,10 @@ export default function Canvas({ src, alt, slideId, fields } : CanvasProps) {
                             // editable={isActive}  
                             content={content} 
                             onUpdate={({ editor }) => {
-                                // const field = localFields.find(f => f.id === id);
-                                debouncedUpdateField({...selectedField!, content: editor.getHTML()})
+                                debouncedUpdateField(id, { ...localFields.find(f => f.id === id)!, content: editor.getHTML().replace(/ /g, '&nbsp;') });
+                            }}
+                            parseOptions={{
+                                preserveWhitespace: 'full'
                             }}
                             customOptions={{
                                 handleDrag,
@@ -183,6 +178,7 @@ export default function Canvas({ src, alt, slideId, fields } : CanvasProps) {
                                 selectedId: selectedId || 0,
                                 handleSelectedId,
                             }}
+                            
                         />
                     </div>
                 </div>

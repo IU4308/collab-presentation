@@ -93,7 +93,7 @@ export function EditorProvider({
                     onClick={() => {
                         handleSelectedId(id)
                     }}
-                    className={`handle tiptap min-w-[100px] max-w-[1024px]`}
+                    className={`handle tiptap  max-w-[1024px]`}
                 >
                     <EditorConsumer>
                         {({ editor: currentEditor }) => (
