@@ -26,7 +26,6 @@ export default function Canvas({ src, alt, slideId, fields } : CanvasProps) {
         setSelectedId(id)
     }
 
-    console.log(fields)
 
     const handleAddField = async () => {
         const newField = { id: uuidv4(), content: '<p>Add Text</p>', position: { x: 100, y: 300 } };
@@ -51,6 +50,12 @@ export default function Canvas({ src, alt, slideId, fields } : CanvasProps) {
     }
 
     const handleUpdateField = async (updatedField: Field) => {
+        console.log(updatedField)
+        setLocalFields((prevFields) =>
+            prevFields.map((field) =>
+                field.id === selectedId ? { ...field, content: updatedField.content, position: updatedField.position } : field
+            )
+        );
         try {
             await axios.put(`${apiUrl}/presentations/${presentationId}/slides/${slideId}/fields/${selectedId}`, updatedField);
             socket.emit('updateField', { slideId, fieldId: selectedId, updatedField })
@@ -161,6 +166,7 @@ export default function Canvas({ src, alt, slideId, fields } : CanvasProps) {
                             // editable={isActive}  
                             content={content} 
                             onUpdate={({ editor }) => {
+                                // const field = localFields.find(f => f.id === id);
                                 debouncedUpdateField({...selectedField!, content: editor.getHTML()})
                             }}
                             customOptions={{
