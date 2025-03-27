@@ -1,19 +1,19 @@
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Button } from "@/components/ui/button"
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogFooter,
-    DialogTitle,
-    DialogTrigger,
-  } from "@/components/ui/dialog"
+// import { Input } from "@/components/ui/input"
+// import { Label } from "@/components/ui/label"
+// import { Button } from "@/components/ui/button"
+// import {
+//     Dialog,
+//     DialogContent,
+//     DialogDescription,
+//     DialogHeader,
+//     DialogFooter,
+//     DialogTitle,
+//     DialogTrigger,
+//   } from "@/components/ui/dialog"
 import { PreviewProps } from "@/definitions"
-import { Link, useNavigate } from "react-router"
-import { io } from "socket.io-client"
-import { useState } from "react"
+import { Link } from "react-router"
+// import { io } from "socket.io-client"
+// import { useState } from "react"
 
 export default function Preview ({ src, alt, id } : PreviewProps) {
     // console.log(socket.id)
