@@ -13,7 +13,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { debounce } from "lodash";
 import { io } from "socket.io-client";
 
-const apiUrl = process.env.API_URL || 'http://localhost:4000';
+const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:4000';
 const socket = io(apiUrl);
 
 export default function Canvas({ src, alt, slideId, fields } : CanvasProps) {

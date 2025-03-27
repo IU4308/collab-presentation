@@ -5,8 +5,7 @@ import axios from "axios";
 import { PresentationType } from "@/definitions";
 // import { io } from "socket.io-client";
 
-const apiUrl = process.env.API_URL || 'http://localhost:4000';
-// const socket = io(apiUrl);
+const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:4000';// const socket = io(apiUrl);
 
 export default function Home() {
     const [presentations, setPresentations] = useState<PresentationType[] | null>(null)
