@@ -5,7 +5,7 @@ import axios from "axios";
 import { PresentationType } from "@/definitions";
 // import { io } from "socket.io-client";
 
-const apiUrl = 'http://localhost:4000'
+const apiUrl = process.env.API_URL || 'http://localhost:4000';
 // const socket = io(apiUrl);
 
 export default function Home() {

@@ -11,8 +11,8 @@ export default function MenuBar ({
     currentId
 } : { 
     editor: Editor | null;
-    selectedId: number; 
-    currentId: number;
+    selectedId: string; 
+    currentId: string;
 }) {
     if (!editor) {
         return null
