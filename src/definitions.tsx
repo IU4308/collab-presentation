@@ -18,7 +18,7 @@ export interface SlidePreviewProps {
 }
 
 export interface PreviewProps {
-    id: string;
+    // id: string;
     src: string;
     alt: string;
 }
