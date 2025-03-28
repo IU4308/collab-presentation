@@ -10,7 +10,6 @@ import { CiViewTable } from "react-icons/ci";
 import { IoGridOutline } from "react-icons/io5";
 import ClipLoader from "react-spinners/ClipLoader";
 
-
 const apiUrl = import.meta.env.VITE_API_URL 
 const socket = io(apiUrl);
 

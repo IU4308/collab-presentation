@@ -66,6 +66,7 @@ export default function Presentation() {
 
     useEffect(() => {
         socket.on('userEvent', (users: UserType[]) => {
+            console.log(users)
             const currentUser = users.find((user) => user.username === username && user.presentationId === presentationId);
             if (currentUser) {
                 setCurrentUser(currentUser);
@@ -79,6 +80,7 @@ export default function Presentation() {
     const slides = presentation?.slides
     const currentSlide = slides?.find(slide => slide.slideId === currentSlideId)
     const role = currentUser?.role
+    console.log(role)
     return (
         <main className=" h-screen flex flex-col overflow-x-auto">
             <div className="fixed top-0 left-[200px] py-2 z-50" >
@@ -148,13 +150,13 @@ export default function Presentation() {
                     ) : (
                         <CanvasFallback src={'/blank.jpg'} />
                     )}
-                    {role === 'creator' && (
-                        <UsersList 
-                            username={username} 
-                            role={role} 
-                            isPresentMode={isPresentMode}
-                        />
-                    )}
+                    
+                    <UsersList 
+                        username={username} 
+                        role={role} 
+                        isPresentMode={isPresentMode}
+                    />
+                    
                 </section>
             )}
         </main>

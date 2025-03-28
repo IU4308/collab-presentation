@@ -27,7 +27,6 @@ export default function ChooseTemplate({ slideId } : { slideId: string }) {
         }
     };
 
-    console.log(template)
     return (
         <div className="relative col-span-2">
             <DropdownMenu>

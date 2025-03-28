@@ -10,6 +10,7 @@ export default function UsersList({ username, role, isPresentMode } : { username
     const presentationId = useParams().presentationId
     const [users, setUsers] = useState<UserType[]>([]);
     useEffect(() => {
+        console.log('test')
         socket.on('userEvent', (users: UserType[]) => {
             setUsers(users.filter(user => user.presentationId === presentationId))
         })
@@ -18,9 +19,10 @@ export default function UsersList({ username, role, isPresentMode } : { username
             socket.off("userEvent");
         };
     }, [presentationId])
+    console.log(users)
 
     return (
-        <div className={`${isPresentMode && 'hidden'} relative z-40 mt-[40px] bg-white h-[100%] w-[250px] overflow-auto p-2 flex flex-col shrink-0 gap-4`}>
+        <div className={`${(isPresentMode || role !== 'creator') && 'hidden'} relative z-40 mt-[40px] bg-white h-[100%] w-[250px] overflow-auto p-2 flex flex-col shrink-0 gap-4`}>
             <h1 className="font-bold">Users</h1>
             <ul className="flex flex-col ">
                 {users.map(user => (

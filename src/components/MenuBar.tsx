@@ -19,7 +19,6 @@ export default function MenuBar ({
     if (!editor) {
         return null
     }
-    console.log(selectedId)
     return (
         <>
             {(currentId === selectedId || selectedId == '') && (
