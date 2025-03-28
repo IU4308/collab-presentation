@@ -187,6 +187,16 @@ export const templates = [
         src: '/slide4.jpg',
         alt: 'slide 4',
     },
+    {
+        id: 5,
+        src: '/slide5.jpg',
+        alt: 'slide 4',
+    },
+    {
+        id: 6,
+        src: '/slide6.jpg',
+        alt: 'slide 4',
+    },
     
 ]
 
