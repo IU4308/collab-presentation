@@ -148,7 +148,13 @@ export default function Presentation() {
                     ) : (
                         <CanvasFallback src={'/blank.jpg'} />
                     )}
-                    <UsersList username={username} role={role} isPresentMode={isPresentMode}/>
+                    {role === 'creator' && (
+                        <UsersList 
+                            username={username} 
+                            role={role} 
+                            isPresentMode={isPresentMode}
+                        />
+                    )}
                 </section>
             )}
         </main>
