@@ -17,7 +17,8 @@ export default function SlidesList({
     handleSlideSelection,
     role,
     title,
-    author
+    author,
+    isPresentMode
 } : SlidesListProps) {
     const presentationId = useParams().presentationId
 
@@ -33,7 +34,7 @@ export default function SlidesList({
         }
     };
     return (
-        <div className="relative z-20 bg-white flex flex-col shrink-0 gap-2 h-[100%] w-[250px] py-2">
+        <div className={`${isPresentMode && 'hidden'} relative z-20 bg-white flex flex-col shrink-0 gap-2 h-[100%] w-[250px] py-2`}>
             <div className="flex gap-4 px-4">
                 <div className=" flex items-center">
                     <Link to={"/"} onClick={handleDisconnect}>

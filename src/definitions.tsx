@@ -8,7 +8,8 @@ export interface SlidesListProps {
     handleSlideSelection: (id: string) => void;
     role: 'viewer' | 'editor' | 'creator' | undefined;
     title: string | undefined
-    author: string | undefined
+    author: string | undefined;
+    isPresentMode: boolean;
 }
 
 export interface SlidePreviewProps { 

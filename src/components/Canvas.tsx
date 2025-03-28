@@ -139,21 +139,35 @@ export default function Canvas({ src, alt, slideId, fields, role } : CanvasProps
         right: slideSize.width, 
         bottom: slideSize.height
     }
+
+    
+
+    // const ref = useRef<HTMLDivElement>();
+    // const { events } = useDraggable(slideRef);
     //////////////////////
     return (
-        <div ref={slideRef} className="relative z-40 min-w-[1024px] w-full h-[calc(100%+45px)] overflow-clip border-2">
+        <div onClick={() => handleSelectedId('')} ref={slideRef} className="relative z-40 min-w-[1024px] w-full h-[calc(100%+45px)] overflow-scroll scrollbar-hide border-2">
             {role !== 'viewer' && (
-                <div className="relative top-0 py-2 pl-2 flex gap-2 border-b-2 z-40 w-[100px]">
-                    <Button variant={'outline'} className=" z-50 cursor-pointer text-white" onClick={handleAddField}>
-                        <BiText className="text-black" />
+                <div className="fixed top-0 left-[300px] py-2 pl-2 flex gap-2 border-b-2 z-60 w-[100px] bg-white">
+                    <Button 
+                        variant={'outline'} 
+                        className=" z-50 cursor-pointer text-white" 
+                        onClick={handleAddField}>
+                        <BiText className="text-black" 
+                    />
                     </Button>
-                    <Button className="cursor-pointer" variant={'outline'} onClick={handleDeleteField}>
+                    <Button 
+                        className="cursor-pointer" 
+                        variant={'outline'} 
+                        onClick={handleDeleteField}
+                        disabled={selectedId == ''}
+                    >
                         <ImCross className="text-red-500" />
                     </Button>
                 </div>
             )}
             {localFields.map(({ id, content, position }) =>  (
-                <div key={id} className="absolute top-0 left-0 z-30">
+                <div key={id} className="absolute top-0 left-0 z-50">
                     <div 
                         onClick={() => {
                             // handleSelectedId(id)
@@ -164,6 +178,7 @@ export default function Canvas({ src, alt, slideId, fields, role } : CanvasProps
                             editable={role !== 'viewer'}  
                             content={content} 
                             onUpdate={({ editor }) => {
+                                handleSelectedId(id)
                                 debouncedUpdateField(id, { ...localFields.find(f => f.id === id)!, content: editor.getHTML() });
                             }}
                             parseOptions={{
@@ -185,11 +200,12 @@ export default function Canvas({ src, alt, slideId, fields, role } : CanvasProps
             }
             <img 
                 src={src} 
+                // src='/slide1.jpg'
                 alt={alt} 
                 className="relative z-20 object-cover h-[100%] w-[100%] " 
-                onClick={() => {
-                    handleSelectedId('')
-                }}
+                // onClick={() => {
+                //     handleSelectedId('')
+                // }}
             />
 
         </div>

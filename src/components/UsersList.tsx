@@ -6,9 +6,10 @@ import { UserType } from "@/definitions";
 
 const apiUrl = import.meta.env.VITE_API_URL 
 const socket = io(apiUrl);
-export default function UsersList({ username, role } : { username: string, role: string | undefined }) {
+export default function UsersList({ username, role, isPresentMode } : { username: string, role: string | undefined, isPresentMode: boolean }) {
     const presentationId = useParams().presentationId
     const [users, setUsers] = useState<UserType[]>([]);
+    console.log(users)
 
     useEffect(() => {
         socket.on('userEvent', (users: UserType[]) => {
@@ -21,7 +22,7 @@ export default function UsersList({ username, role } : { username: string, role:
     }, [presentationId])
 
     return (
-        <div className="relative z-40 mt-[40px] bg-white h-[100%] w-[250px] overflow-auto p-2 flex flex-col shrink-0 gap-4">
+        <div className={`${isPresentMode && 'hidden'} relative z-40 mt-[40px] bg-white h-[100%] w-[250px] overflow-auto p-2 flex flex-col shrink-0 gap-4`}>
             <h1 className="font-bold">Users</h1>
             <ul className="flex flex-col ">
                 {users.map(user => (

@@ -43,13 +43,12 @@ export function EditorProvider({
     const { 
         position, 
         handleDrag, 
-        bounds, 
+        // bounds, 
         id,
         selectedId,
         handleSelectedId,
         role,
     } = {...customOptions}
-    // console.log(localFields[0].content)
     const draggableRef = useRef<HTMLDivElement>(null)
     const editor = useEditor(editorOptions, [role])
 
@@ -91,15 +90,20 @@ export function EditorProvider({
                 scale={1}
                 onDrag={(e, data) => handleDrag(id, e, data)}
                 onStop={(e, data) => handleDrag(id, e, data)}
-                disabled={selectedId !== 0 || role === 'viewer'}
-                bounds={bounds}
+                disabled={selectedId != 0 || role === 'viewer'}
+                // bounds={bounds}
             >
                 <div
                     ref={draggableRef}
-                    onClick={() => {
+                    // onMouseDown={(e) => {
+                    //     e.stopPropagation()
+                    //     handleSelectedId(id)
+                    // }}
+                    onClick={(e) => {
+                        e.stopPropagation()
                         handleSelectedId(id)
                     }}
-                    className={`handle tiptap  max-w-[1024px]`}
+                    className={`handle tiptap`}
                 >
                     <EditorConsumer>
                         {({ editor: currentEditor }) => (

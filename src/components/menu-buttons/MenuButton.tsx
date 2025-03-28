@@ -9,7 +9,6 @@ export default function MenuButton ({
     type, 
     icon, 
 } : MenuButtonProps) {
-    console.log(selectedId)
     return (
         <Button
         onClick={() => {

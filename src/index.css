@@ -144,6 +144,10 @@
   scrollbar-width: thin; /* Options: auto, thin, none */
 }
 
+.scrollbar-hide {
+  scrollbar-width: none
+}
+
 
 /* Basic editor styles */
 .tiptap {
