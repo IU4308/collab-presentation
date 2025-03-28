@@ -8,7 +8,7 @@ import TablieView from "@/components/TableView";
 import { Button } from "@/components/ui/button";
 import { CiViewTable } from "react-icons/ci";
 import { IoGridOutline } from "react-icons/io5";
-
+import ClipLoader from "react-spinners/ClipLoader";
 
 
 const apiUrl = import.meta.env.VITE_API_URL 
@@ -17,15 +17,21 @@ const socket = io(apiUrl);
 export default function Home() {
     const [presentations, setPresentations] = useState<PresentationType[] | null>(null)
     const [isGallery, setIsGallery] = useState(false)
+    const [isLoading, setIsLoading] = useState(false); 
+
     const handleView = () => setIsGallery(!isGallery)
     useEffect(() => {
             const fetchPresentation = async () => {
+                setIsLoading(true); 
+
                 try {
                     const response = await axios.get(`${apiUrl}/presentations`)
                     setPresentations(response.data)
                     
                 } catch (error) {
                     console.log('Error fetching presentation: ', error)
+                } finally {
+                    setIsLoading(false); 
                 }
             };
     
@@ -33,9 +39,11 @@ export default function Home() {
         }, [])
         useEffect(() => {
             socket.on('newPresentation', (newPresentation: PresentationType) => {
+                setIsLoading(true);
                 if (presentations !== null) {
                     setPresentations((prevPresentations) => prevPresentations ? [...prevPresentations, newPresentation] : [newPresentation])
                 }
+                setIsLoading(false);
             })
     
             return () => {
@@ -51,10 +59,11 @@ export default function Home() {
                 <Button 
                     variant={'outline'}
                     onClick={handleView}
-                >
+                    >
                     {isGallery ? <CiViewTable /> : <IoGridOutline />}
                 </Button>
             </div>
+            {isLoading && <ClipLoader color={'black'}/>}
             {presentations !== null && (
                 <>
                     {isGallery ? (
