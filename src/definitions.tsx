@@ -19,7 +19,6 @@ export interface SlidePreviewProps {
     alt: string;
     currentSlideId: string;
     handleSlideSelection: (id: string) => void;
-    role: 'viewer' | 'editor' | 'creator' | undefined;
 }
 
 export interface PreviewProps {

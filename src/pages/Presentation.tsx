@@ -10,6 +10,8 @@ import CanvasFallback from "@/components/CanvasFallback";
 import PresentationDialog from "@/components/PresentationDialog";
 import { Button } from "@/components/ui/button";
 import { VscDebugStart } from "react-icons/vsc";
+import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
+
 
 const apiUrl = import.meta.env.VITE_API_URL 
 const socket = io(apiUrl);
@@ -79,7 +81,7 @@ export default function Presentation() {
     const role = currentUser?.role
     return (
         <main className=" h-screen flex flex-col overflow-x-auto">
-            <div className="fixed top-0 left-[1200px] py-2 z-50" >
+            <div className="fixed top-0 left-[200px] py-2 z-50" >
                 <Button 
                     variant={'outline'}
                     onClick={handlePresentMode}
@@ -87,6 +89,38 @@ export default function Presentation() {
                     <VscDebugStart />
                 </Button>
             </div>
+            {slides?.map((slide, index) => isPresentMode && slide.slideId === currentSlideId &&  (
+                <div key={slide.slideId}>
+                    <div className="fixed z-50 top-1/2 right-1" >
+                        <Button 
+                            className="w-2"
+                            onClick={() => {
+                                if (index < slides.length - 1) {
+                                    setCurrentSlideId(slides[index + 1].slideId)
+                                } else {
+                                    setCurrentSlideId(slides[0].slideId)
+                                }
+                            }}
+                        >
+                            <MdNavigateNext  />
+                        </Button>
+                    </div>
+                    <div className="fixed z-50 top-1/2 left-1" >
+                        <Button 
+                            className="w-2"
+                            onClick={() => {
+                                if (index > 0) {
+                                    setCurrentSlideId(slides[index - 1].slideId)
+                                } else {
+                                    setCurrentSlideId(slides[slides.length - 1].slideId)
+                                }
+                            }}    
+                        >
+                            <MdNavigateBefore />
+                        </Button>
+                    </div>
+                </div>
+            ))}
             {open ?
                 <PresentationDialog 
                     username={username} 

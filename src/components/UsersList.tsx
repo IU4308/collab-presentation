@@ -9,8 +9,6 @@ const socket = io(apiUrl);
 export default function UsersList({ username, role, isPresentMode } : { username: string, role: string | undefined, isPresentMode: boolean }) {
     const presentationId = useParams().presentationId
     const [users, setUsers] = useState<UserType[]>([]);
-    console.log(users)
-
     useEffect(() => {
         socket.on('userEvent', (users: UserType[]) => {
             setUsers(users.filter(user => user.presentationId === presentationId))

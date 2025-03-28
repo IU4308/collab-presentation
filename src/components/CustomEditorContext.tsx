@@ -103,7 +103,7 @@ export function EditorProvider({
                         e.stopPropagation()
                         handleSelectedId(id)
                     }}
-                    className={`handle tiptap`}
+                    className={`handle tiptap `}
                 >
                     <EditorConsumer>
                         {({ editor: currentEditor }) => (

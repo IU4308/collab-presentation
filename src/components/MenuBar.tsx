@@ -19,8 +19,8 @@ export default function MenuBar ({
     return (
         <>
             {(currentId === selectedId || selectedId == '') && (
-                <div className=" fixed z-50 top-0 left-[400px] border-b-2 control-group w-[732px] p-2 bg-white ">
-                    <div className="button-group flex w-[732px] gap-2">
+                <div className="fixed z-50 top-0 left-[350px] border-b-2 max-xl:border-0 control-group w-[732px] p-2 bg-white max-xl:w-[200px] max-xl:left-[350px]">
+                    <div className="button-group flex w-full gap-2 max-xl:grid max-xl:grid-cols-5">
                         <HeadingButton editor={editor} selectedId={selectedId} currentId={currentId}   />
                         <ColorButton editor={editor} selectedId={selectedId} currentId={currentId} />
                         {buttons.map(button => (
