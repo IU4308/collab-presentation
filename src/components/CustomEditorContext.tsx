@@ -47,10 +47,10 @@ export function EditorProvider({
         id,
         selectedId,
         handleSelectedId,
-        role 
+        role,
     } = {...customOptions}
+    // console.log(localFields[0].content)
     const draggableRef = useRef<HTMLDivElement>(null)
-    
     const editor = useEditor(editorOptions, [role])
 
     useEffect(() => {
@@ -58,7 +58,13 @@ export function EditorProvider({
             const currentContent = editor.getJSON();
             if (JSON.stringify(currentContent) !== JSON.stringify(editorOptions.content)) {
                 const { from, to } = editor.state.selection;
-                editor.commands.setContent(editorOptions.content); 
+                editor
+                    .chain()
+                    .setContent(editorOptions.content, false, {
+                        preserveWhitespace: "full",
+                    })
+                    .focus()
+                    .run();
                 editor.commands.setTextSelection({ from, to }); 
             }
         }

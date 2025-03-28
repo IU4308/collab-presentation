@@ -5,18 +5,24 @@ import { IoAddSharp } from "react-icons/io5";
 import { Button } from "./ui/button";
 import { Link } from "react-router";
 import { CiHome } from "react-icons/ci";
+import { io } from "socket.io-client";
 
+const apiUrl = import.meta.env.VITE_API_URL 
+const socket = io(apiUrl);
 
 export default function SlidesList({ 
     slides,
     currentSlideId,
     handleSlideSelection 
 } : SlidesListProps) {
+    const handleDisconnect = () => {
+        socket.emit('disconnect')
+    }
     return (
         <div className="relative z-20 bg-white flex flex-col shrink-0 gap-2  h-[100%] w-[250px] py-2">
             <div className="flex gap-2 px-4">
                 <div className=" flex items-center">
-                    <Link to={"/"}>
+                    <Link to={"/"} onClick={handleDisconnect}>
                         <CiHome className="text-xl"/>
                     </Link>
                 </div>

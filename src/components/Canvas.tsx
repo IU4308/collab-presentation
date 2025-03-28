@@ -85,7 +85,6 @@ export default function Canvas({ src, alt, slideId, fields, role } : CanvasProps
     useEffect(() => {
         // Rerender local fields upon slideId change 
         setLocalFields(fields)
-
         // Listen for updates from other clients
         socket.on('fieldUpdated', ({ slideId: updatedSlideId, fieldId, updatedField }) => {
             if (slideId === updatedSlideId) {
@@ -111,9 +110,10 @@ export default function Canvas({ src, alt, slideId, fields, role } : CanvasProps
         });
     
         return () => {
-            socket.off('fieldUpdated'); // Clean up the listener
+            socket.off('fieldUpdated');
         };
     }, [slideId]);
+
     ////////////////////
     const [slideSize, setSlideSize] = useState({
         width: 0,
@@ -161,8 +161,9 @@ export default function Canvas({ src, alt, slideId, fields, role } : CanvasProps
                             extensions={extensions} 
                             editable={role !== 'viewer'}  
                             content={content} 
+                            // injectCSS={true}
                             onUpdate={({ editor }) => {
-                                debouncedUpdateField(id, { ...localFields.find(f => f.id === id)!, content: editor.getHTML().replace(/ /g, '&nbsp;') });
+                                debouncedUpdateField(id, { ...localFields.find(f => f.id === id)!, content: editor.getHTML() });
                             }}
                             parseOptions={{
                                 preserveWhitespace: 'full'
@@ -176,7 +177,6 @@ export default function Canvas({ src, alt, slideId, fields, role } : CanvasProps
                                 handleSelectedId,
                                 role
                             }}
-                            
                         />
                     </div>
                 </div>

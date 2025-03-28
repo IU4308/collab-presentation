@@ -6,7 +6,6 @@ import { Editor } from "@tiptap/react";
 
 export default function MenuBar ({ 
     editor,
-    // isActive,
     selectedId,
     currentId
 } : { 
@@ -17,25 +16,26 @@ export default function MenuBar ({
     if (!editor) {
         return null
     }
-
     return (
         <>
-            {currentId === selectedId &&(<div className="absolute z-50 top-0 left-[150px] control-group w-[732px] p-2 rounded-xl bg-white border-gray-300 ">
-                <div className="button-group flex w-[732px] gap-2">
-                    <HeadingButton editor={editor} selectedId={selectedId} currentId={currentId}   />
-                    <ColorButton editor={editor} selectedId={selectedId} currentId={currentId} />
-                    {buttons.map(button => (
-                        <MenuButton 
-                            key={button.id}
-                            editor={editor}
-                            selectedId={selectedId} 
-                            currentId={currentId}
-                            type={button.type}
-                            icon={button.icon}
-                        />
-                    ))}
+            {(currentId === selectedId || selectedId == '') && (
+                <div className="cursor-pointer absolute z-50 top-0 left-[150px] control-group w-[732px] p-2 rounded-xl bg-white border-gray-300 ">
+                    <div className="button-group flex w-[732px] gap-2">
+                        <HeadingButton editor={editor} selectedId={selectedId} currentId={currentId}   />
+                        <ColorButton editor={editor} selectedId={selectedId} currentId={currentId} />
+                        {buttons.map(button => (
+                            <MenuButton 
+                                key={button.id}
+                                editor={editor}
+                                selectedId={selectedId} 
+                                currentId={currentId}
+                                type={button.type}
+                                icon={button.icon}
+                            />
+                        ))}
+                    </div>
                 </div>
-            </div>)}
+            )}
         </>
     )
 }

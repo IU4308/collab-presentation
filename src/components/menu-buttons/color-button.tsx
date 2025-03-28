@@ -10,9 +10,9 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { colors } from "@/constants";
-import { getActiveColor } from "@/lib/utils";
 import { Editor } from "@tiptap/react";
 import { HeadingColorButtonsProps } from "@/definitions";
+import { useEffect, useState } from "react";
 
 const Item = ({ 
     editor,
@@ -27,14 +27,12 @@ const Item = ({
         <DropdownMenuRadioItem 
             value={color}
             onClick={() => {
-                editor!.chain().focus().setColor(color).run();
                 setTimeout(() => {
-                    editor!.chain().focus().run();
+                    editor.chain().focus().setColor(color).run();
                 }, 300);
             }}
             disabled={
                 !editor.can().chain().focus().setColor(color).run()
-                
             }
             className="cursor-pointer flex items-center gap-2" 
         >
@@ -45,8 +43,21 @@ const Item = ({
 }
 
 export default function ColorButton ({ editor, currentId, selectedId }: HeadingColorButtonsProps) {
-    // const { editor } = useCurrentEditor()
-    const activeColor = getActiveColor(editor!);
+    const [activeColor, setActiveColor] = useState('#000')
+    useEffect(() => {
+        if (!editor) return;
+    
+        const updateActiveColor = () => {
+            const color = editor.getAttributes('textStyle').color;
+            setActiveColor(color);
+        };
+    
+        editor.on('transaction', updateActiveColor);
+        return () => {
+            editor.off('transaction', updateActiveColor);
+        };
+    }, [editor]);
+    
 
     return (
         <DropdownMenu>
@@ -54,7 +65,7 @@ export default function ColorButton ({ editor, currentId, selectedId }: HeadingC
                 <Button
                     className="bg-gray-200 text-black hover:bg-blue-600 hover:text-white"
                     disabled={
-                        !editor!.can().chain().focus().setColor('#958DF1').run() 
+                        !editor.can().chain().focus().setColor('#958DF1').run() 
                         || selectedId !== currentId
                         // || !editor!.isEditable
                     }
