@@ -67,6 +67,7 @@ export default function ColorButton ({ editor, currentId, selectedId }: HeadingC
                     disabled={
                         !editor.can().chain().focus().setColor('#958DF1').run() 
                         || selectedId !== currentId
+                        // || selectedId == ''
                         // || !editor!.isEditable
                     }
                 >

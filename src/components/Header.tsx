@@ -14,9 +14,7 @@ import { CiSquarePlus } from "react-icons/ci"
 import { useState } from "react"
 import axios from "axios"
 
-// const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:4000";
-const apiUrl = "http://localhost:4000";
-
+const apiUrl = import.meta.env.VITE_API_URL 
 export default function Header() {
     const [username, setUsername] = useState("");
     const [title, setTitle] = useState("");

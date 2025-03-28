@@ -19,7 +19,7 @@ export default function MenuBar ({
     return (
         <>
             {(currentId === selectedId || selectedId == '') && (
-                <div className="cursor-pointer absolute z-50 top-0 left-[150px] control-group w-[732px] p-2 rounded-xl bg-white border-gray-300 ">
+                <div className=" absolute z-50 top-0 left-[100px] border-b-2 control-group w-[732px] p-2 bg-white ">
                     <div className="button-group flex w-[732px] gap-2">
                         <HeadingButton editor={editor} selectedId={selectedId} currentId={currentId}   />
                         <ColorButton editor={editor} selectedId={selectedId} currentId={currentId} />

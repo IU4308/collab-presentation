@@ -17,9 +17,9 @@ const apiUrl = import.meta.env.VITE_API_URL
 const socket = io(apiUrl);
 
 export default function Canvas({ src, alt, slideId, fields, role } : CanvasProps) {
+    const presentationId = useParams().presentationId
     const [localFields, setLocalFields] = useState<Field[]>(fields);
     const [selectedId, setSelectedId] = useState('');
-    const presentationId = useParams().presentationId
 
     const handleSelectedId = (id: string) => {
         setSelectedId(id)
@@ -142,26 +142,27 @@ export default function Canvas({ src, alt, slideId, fields, role } : CanvasProps
     //////////////////////
     return (
         <div ref={slideRef} className="relative z-40 min-w-[1024px] w-full h-[calc(100%+45px)] overflow-clip border-2">
-            {role !== 'viewer' && <div className="relative top-0 py-2 flex gap-2 z-40 w-[100px]">
-                <Button variant={'outline'} className=" z-50 cursor-pointer text-white" onClick={handleAddField}>
-                    <BiText className="text-black" />
-                </Button>
-                <Button className="cursor-pointer" variant={'outline'} onClick={handleDeleteField}>
-                    <ImCross className="text-red-500" />
-                </Button>
-            </div>}
+            {role !== 'viewer' && (
+                <div className="relative top-0 py-2 pl-2 flex gap-2 border-b-2 z-40 w-[100px]">
+                    <Button variant={'outline'} className=" z-50 cursor-pointer text-white" onClick={handleAddField}>
+                        <BiText className="text-black" />
+                    </Button>
+                    <Button className="cursor-pointer" variant={'outline'} onClick={handleDeleteField}>
+                        <ImCross className="text-red-500" />
+                    </Button>
+                </div>
+            )}
             {localFields.map(({ id, content, position }) =>  (
                 <div key={id} className="absolute top-0 left-0 z-30">
                     <div 
                         onClick={() => {
-                            handleSelectedId(id)
+                            // handleSelectedId(id)
                         }} 
                     >
                         <EditorProvider
                             extensions={extensions} 
                             editable={role !== 'viewer'}  
                             content={content} 
-                            // injectCSS={true}
                             onUpdate={({ editor }) => {
                                 debouncedUpdateField(id, { ...localFields.find(f => f.id === id)!, content: editor.getHTML() });
                             }}
@@ -185,7 +186,7 @@ export default function Canvas({ src, alt, slideId, fields, role } : CanvasProps
             <img 
                 src={src} 
                 alt={alt} 
-                className="relative z-20 object-cover h-[100%] w-[100%] cursor-pointer" 
+                className="relative z-20 object-cover h-[100%] w-[100%] " 
                 onClick={() => {
                     handleSelectedId('')
                 }}

@@ -17,7 +17,6 @@ export default function Presentation() {
     const [presentation, setPresentation] = useState<PresentationType | null>(null)
     const [currentSlideId, setCurrentSlideId] = useState('')
     const [currentUser, setCurrentUser] = useState<UserType | null>(null)
-
     const [username, setUsername] = useState("");
     const [open, setOpen] = useState(true)
 
@@ -28,6 +27,7 @@ export default function Presentation() {
         setOpen(false)
         socket.emit("joinPresentation", { presentationId, username });
     };
+
     const handleSlideSelection = (id: string) => {
         setCurrentSlideId(id)
     }
@@ -62,8 +62,6 @@ export default function Presentation() {
             const currentUser = users.find((user) => user.username === username && user.presentationId === presentationId);
             if (currentUser) {
                 setCurrentUser(currentUser);
-                console.log('Updated currentUser:', currentUser); // Debugging
-
             }
         });
 
@@ -74,7 +72,6 @@ export default function Presentation() {
     const slides = presentation?.slides
     const currentSlide = slides?.find(slide => slide.slideId === currentSlideId)
     const role = currentUser?.role
-    // console.log(role)
     return (
         <main className=" h-screen flex flex-col overflow-x-auto">
             {open ?
@@ -91,6 +88,9 @@ export default function Presentation() {
                         slides={slides}
                         currentSlideId={currentSlideId}
                         handleSlideSelection={handleSlideSelection}
+                        role={role}
+                        title={presentation?.title}
+                        author={presentation?.creatorId}
                     />
                     {currentSlide !== undefined && role ? (
                         <Canvas 

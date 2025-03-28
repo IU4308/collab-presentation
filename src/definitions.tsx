@@ -6,6 +6,9 @@ export interface SlidesListProps {
     slides: Slide[] | undefined;
     currentSlideId: string;
     handleSlideSelection: (id: string) => void;
+    role: 'viewer' | 'editor' | 'creator' | undefined;
+    title: string | undefined
+    author: string | undefined
 }
 
 export interface SlidePreviewProps { 
@@ -15,6 +18,7 @@ export interface SlidePreviewProps {
     alt: string;
     currentSlideId: string;
     handleSlideSelection: (id: string) => void;
+    role: 'viewer' | 'editor' | 'creator' | undefined;
 }
 
 export interface PreviewProps {
@@ -85,8 +89,8 @@ export interface Slide {
 
 export interface PresentationType {
     presentationId: string;
-    cover: string;
     creatorId: string;
+    title: string;
     editorsId: string[];
     slides: Slide[];
 }
