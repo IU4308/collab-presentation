@@ -8,6 +8,7 @@ import { CiHome } from "react-icons/ci";
 import { io } from "socket.io-client";
 import axios from "axios";
 import { ImCross } from "react-icons/im";
+import ChooseTemplate from "./ChooseTemplate";
 
 const apiUrl = import.meta.env.VITE_API_URL 
 const socket = io(apiUrl);
@@ -41,6 +42,9 @@ export default function SlidesList({
             console.error("Error adding new slide:", error);
         }
     };
+
+    // const  
+
     return (
         <div className={`${isPresentMode && 'hidden'} relative z-20 bg-white flex flex-col shrink-0 gap-2 h-[100%] w-[250px] py-2`}>
             <div className="flex gap-4 px-4">
@@ -74,6 +78,13 @@ export default function SlidesList({
                                 className="text-xs z-40 cursor-pointer hover:text-red-300 text-red-500" 
                             />
                         </Button>
+                        {/* <Button
+                            variant={'outline'}
+                            className="col-span-2"
+                        >
+                            <CiImageOn />
+                        </Button> */}
+                        <ChooseTemplate slideId={currentSlideId}/>
                     </div>
                 )}
                 <ul className="flex flex-col gap-2">

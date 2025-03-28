@@ -13,13 +13,19 @@ import { BiFontSize } from "react-icons/bi";
 import { Editor } from "@tiptap/react";
 import { HeadingColorButtonsProps } from "@/definitions";
 
-const Item = ({ editor, level }: { editor: Editor; level: 1 | 2 | 3 | 4 | 5 | 6 }) => {
+const Item = ({ editor, level, handleSelectedId, currentId }: { 
+    editor: Editor; 
+    level: 1 | 2 | 3 | 4 | 5 | 6;
+    handleSelectedId: (id: string) => void
+    currentId: string
+}) => {
     return (
         <DropdownMenuRadioItem 
             value={`h${level}`}
             onClick={() => {
                 editor?.chain().focus().toggleHeading({ level: level }).run()
                 setTimeout(() => {
+                    handleSelectedId(currentId)
                     editor?.chain().focus().run();
                 }, 300);
             }}
@@ -37,7 +43,7 @@ const Item = ({ editor, level }: { editor: Editor; level: 1 | 2 | 3 | 4 | 5 | 6 
     )
 }
 
-export default function HeadingButton ({ editor, currentId, selectedId }: HeadingColorButtonsProps) {
+export default function HeadingButton ({ editor, currentId, selectedId, handleSelectedId }: HeadingColorButtonsProps) {
     const items = Array.from({ length: 6 }, (_, i) => i + 1)
     // const { editor } = useCurrentEditor()
     return (
@@ -62,7 +68,13 @@ export default function HeadingButton ({ editor, currentId, selectedId }: Headin
                 <DropdownMenuRadioGroup value={getActiveHeading(editor!) ?? ''}  >
                     {/* <Item editor={editor} value="h1" /> */}
                     {items.map(item => (
-                        <Item key={item} editor={editor} level={item as 1 | 2 | 3 | 4 | 5 | 6} />
+                        <Item 
+                            key={item} 
+                            editor={editor} 
+                            level={item as 1 | 2 | 3 | 4 | 5 | 6} 
+                            handleSelectedId={handleSelectedId} 
+                            currentId={currentId}
+                        />
                     ))}
                 </DropdownMenuRadioGroup>
             </DropdownMenuContent>

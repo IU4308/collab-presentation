@@ -17,17 +17,22 @@ import { useEffect, useState } from "react";
 const Item = ({ 
     editor,
     color, 
-    label 
+    label,
+    handleSelectedId, 
+    currentId 
 }: {
     editor: Editor;
     color: string;
     label: string;
+    handleSelectedId: (id: string) => void
+    currentId: string
 }) => {
     return (
         <DropdownMenuRadioItem 
             value={color}
             onClick={() => {
                 setTimeout(() => {
+                    handleSelectedId(currentId)
                     editor.chain().focus().setColor(color).run();
                 }, 300);
             }}
@@ -42,7 +47,7 @@ const Item = ({
     )
 }
 
-export default function ColorButton ({ editor, currentId, selectedId }: HeadingColorButtonsProps) {
+export default function ColorButton ({ editor, currentId, selectedId, handleSelectedId }: HeadingColorButtonsProps) {
     const [activeColor, setActiveColor] = useState('#000')
     useEffect(() => {
         if (!editor) return;
@@ -84,6 +89,8 @@ export default function ColorButton ({ editor, currentId, selectedId }: HeadingC
                             key={color.id} 
                             color={color.color} 
                             label={color.label} 
+                            handleSelectedId={handleSelectedId} 
+                            currentId={currentId}
                         />
                     ))}
                 </DropdownMenuRadioGroup>

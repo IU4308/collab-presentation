@@ -30,7 +30,7 @@ export default function PresentationDialog ({
                 <DialogTrigger className="flex h-[93%]">
                     <CanvasFallback src={src} />
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px]">
+                <DialogContent className="sm:max-w-[425px] [&>button]:hidden">
                     <DialogHeader>
                         <DialogTitle>Join the presentation</DialogTitle>
                         <DialogDescription>Specify your username.</DialogDescription>

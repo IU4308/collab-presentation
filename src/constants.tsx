@@ -161,7 +161,7 @@ export const colors = [
 ]
 
 
-export const slides = [
+export const templates = [
     {
         id: 0,
         src: '/blank.jpg',
@@ -190,47 +190,3 @@ export const slides = [
     
 ]
 
-// const presentations = [
-//   {
-//     presentationId: 1,
-//     creatorId: 1,
-//     editorsId: [2,3],
-//     content: [
-//       {
-//         slideId: 1,
-//         fieldId: 1,
-//         content: "<p>Text</p>",
-//         position: {x: 100, y: 150}
-//       },
-//       {
-//         slideId: 2,
-//         fieldId: 1,
-//         content: "<p>Text</p>",
-//         position: {x: 100, y: 150}
-//       },
-//     ],
-//     slidesCount: 4,
-//   }
-// ]
-
-// const presentations = [
-//   {
-//     presentationId: 1,
-//     creatorId: 1,
-//     editorsId: [2,3],
-//     slides: [
-//       {
-//         src: '/image.jpg',
-//         slideId: 1,
-//         fields: [
-//           {
-//             slideId: 1,
-//             fieldId: 1,
-//             content: "<p>Text</p>",
-//             position: {x: 100, y: 150}
-//           }
-//         ]
-//       }
-//     ]
-//   }
-// ]

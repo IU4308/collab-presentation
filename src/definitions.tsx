@@ -22,9 +22,9 @@ export interface SlidePreviewProps {
 }
 
 export interface PreviewProps {
-    id: string;
-    src: string;
-    alt: string;
+    // id: string;
+    // slide: Slide | null;
+    presentation: PresentationType | null
 }
 
 export interface CanvasProps {
@@ -43,14 +43,15 @@ export interface EditorData {
 
 export interface HeadingColorButtonsProps {
     editor: Editor;
-    // isActive: boolean;
     currentId: string;
     selectedId: string;
+    handleSelectedId: (id: string) => void
 }
 
 export interface MenuButtonProps extends HeadingColorButtonsProps {
     type: string;
     icon: ReactNode;
+    handleSelectedId: (id: string) => void
 }
 
 export interface Field {

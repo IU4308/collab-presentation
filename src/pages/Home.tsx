@@ -1,16 +1,23 @@
-import Preview from "../components/Preview";
 import Header from "@/components/Header";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { PresentationType } from "@/definitions";
 import { io } from "socket.io-client";
+import GridView from "@/components/GridView";
+import TablieView from "@/components/TableView";
+import { Button } from "@/components/ui/button";
+import { CiViewTable } from "react-icons/ci";
+import { IoGridOutline } from "react-icons/io5";
+
+
 
 const apiUrl = import.meta.env.VITE_API_URL 
 const socket = io(apiUrl);
 
 export default function Home() {
     const [presentations, setPresentations] = useState<PresentationType[] | null>(null)
-
+    const [isGallery, setIsGallery] = useState(false)
+    const handleView = () => setIsGallery(!isGallery)
     useEffect(() => {
             const fetchPresentation = async () => {
                 try {
@@ -34,22 +41,29 @@ export default function Home() {
             return () => {
                 socket.off('newPresentation')
             }
-        }, [presentations])
+    }, [presentations])
 
     return (
-        <main className="min-h-screen py-4 flex flex-col gap-2 items-center">
+        <main className="min-h-screen py-4 flex flex-col items-center gap-2 max-w-[1024px] mx-auto">
             <Header />
-
-            <div className="xl:max-w-[1024px] py-8 grid sm:grid-cols-2 xl:grid-cols-3 gap-8 justify-center xl:border-x border-gray-200 sm:px-8">
-                {presentations?.map(p => (
-                    <Preview 
-                        key={p.presentationId}  
-                        src={p.slides[0].src}
-                        alt={p.slides[0].alt}
-                        id={p.presentationId}
-                    />
-                ))}
+            <div className="w-full px-2 flex justify-between">
+                <span className="text-2xl">All presentations</span>
+                <Button 
+                    variant={'outline'}
+                    onClick={handleView}
+                >
+                    {isGallery ? <CiViewTable /> : <IoGridOutline />}
+                </Button>
             </div>
+            {presentations !== null && (
+                <>
+                    {isGallery ? (
+                        <GridView presentations={presentations} />
+                    ) : (
+                        <TablieView presentations={presentations} />
+                    )}
+                </>
+            )}
         </main>
     )
 

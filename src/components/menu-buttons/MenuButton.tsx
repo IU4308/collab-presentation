@@ -8,11 +8,16 @@ export default function MenuButton ({
     currentId,
     type, 
     icon, 
+    handleSelectedId
 } : MenuButtonProps) {
+    
     return (
         <Button
         onClick={() => {
                 getEditorMethod(editor!, type)()
+                setTimeout(() => {
+                    handleSelectedId(currentId)
+                }, 300);
             }}
             disabled={
                 !getEditorMethod(editor, type, 'check')() 

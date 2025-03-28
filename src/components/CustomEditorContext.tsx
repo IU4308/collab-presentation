@@ -76,11 +76,15 @@ export function EditorProvider({
     return (
         <EditorContext.Provider value={{ editor }}>
             {slotBefore}
-            {role !== 'viewer' && <MenuBar 
-                editor={editor} 
-                selectedId={selectedId} 
-                currentId={id} 
-            />}
+            {role !== 'viewer' && (
+                <MenuBar 
+                    editor={editor} 
+                    selectedId={selectedId} 
+                    currentId={id} 
+                    handleSelectedId={handleSelectedId}
+
+                />
+            )}
             <Draggable
                 nodeRef={draggableRef as RefObject<HTMLElement>}
                 axis="both"

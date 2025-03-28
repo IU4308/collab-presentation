@@ -144,17 +144,17 @@ export default function Canvas({ src, alt, slideId, fields, role } : CanvasProps
     return (
         <div onClick={() => handleSelectedId('')} ref={slideRef} className="relative z-40 min-w-[1024px] w-full h-[calc(100%+45px)] overflow-scroll scrollbar-hide border-2">
             {role !== 'viewer' && (
-                <div className="fixed top-0 left-[260px] max-xl:left-[251px] py-2 pl-2 flex gap-2 border-b-2 max-xl:border-0 z-60 w-[100px] bg-white">
+                <div className="fixed top-0 left-[260px] max-xl:left-[251px] py-2 pl-2 flex gap-2 border-b-2 max-xl:border-0 z-60 w-[100px] ">
                     <Button 
-                        variant={'outline'} 
-                        className=" z-50 cursor-pointer text-white" 
+                        // variant={'outline'} 
+                        className=" z-50 cursor-pointer " 
                         onClick={handleAddField}>
-                        <BiText className="text-black" 
+                        <BiText className="text-white" 
                     />
                     </Button>
                     <Button 
                         className="cursor-pointer" 
-                        variant={'outline'} 
+                        // variant={'outline'} 
                         onClick={handleDeleteField}
                         disabled={selectedId == ''}
                     >
@@ -164,12 +164,7 @@ export default function Canvas({ src, alt, slideId, fields, role } : CanvasProps
             )}
             {localFields.map(({ id, content, position }) =>  (
                 <div key={id} className="absolute top-0 left-0 z-50">
-                    <div 
-                        
-                        onClick={() => {
-                            // handleSelectedId(id)
-                        }} 
-                    >
+                    {/* <div > */}
                         <EditorProvider
                             extensions={extensions} 
                             editable={role !== 'viewer'}  
@@ -191,12 +186,12 @@ export default function Canvas({ src, alt, slideId, fields, role } : CanvasProps
                                 role
                             }}
                         />
-                    </div>
+                    {/* </div> */}
                 </div>
-            ))
-            }
+            ))}
             <img 
                 src={src} 
+                // src='/slide5.jpg'
                 alt={alt} 
                 className="relative z-20 object-cover h-[100%] w-[100%] " 
             />
