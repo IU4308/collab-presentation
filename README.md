@@ -1,55 +1,36 @@
-# React + TypeScript + Vite
+# 📽️ Collaborative Presentation App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A real-time web application that enables users to create or join live presentations. Users can collaborate on slide content using a markdown-enabled editor, drag-and-drop layout management, and live preview. All updates are broadcast instantly to all participants.
 
-Currently, two official plugins are available:
+## ✨ Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 📝 **Markdown-Based Slide Editing** – Author slides using markdown-powered rich text blocks.
+- ⚡ **Real-Time Collaboration** – Live syncing of edits across all connected participants via WebSockets.
+- 🔒 **Role-Based Access Control** – Only authorized users can edit or manage specific presentations.
+- 🧩 **Drag-and-Drop UI** – Easily organize and arrange slides and content blocks.
+- 🪄 **Live Preview** – See changes appear instantly on all connected devices.
+- 🧱 **Editable Content Blocks** – Authors and assigned editors can add/remove markdown-enabled text blocks and rearrange them via drag-and-drop.
+- 🖼️ **Slide Management** – Authors can add or remove slides and assign editors for collaborative work.
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🛠️ Tech Stack
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+**Frontend**
+- TypeScript
+- React
+- Tailwind CSS
+- Shadcn UI
+- Tiptap (rich text editor)
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+**Backend**
+- Node.js
+- Express.js
+- MongoDB
+- Socket.io
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🔗 Links
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
-# collab-presentation
+- 🌐 [Live Website](https://collab-presentation.vercel.app)  
+  _Note: The hosting service may delay the first request by up to 1 minute after inactivity._
+- 🗂 [Backend Repository](https://github.com/IU4308/collab-presentation-backend)
+
